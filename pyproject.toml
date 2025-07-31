@@ -1,0 +1,198 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "latex-formatter"
+version = "1.0.0"
+description = "A Black/Ruff-style formatter for LaTeX files"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "LaTeX Formatter Team", email = "latex-formatter@example.com"}
+]
+maintainers = [
+    {name = "LaTeX Formatter Team", email = "latex-formatter@example.com"}
+]
+keywords = ["latex", "formatter", "code-quality", "linter", "tex"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "toml>=0.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "mypy>=0.900",
+    "pre-commit>=2.0",
+]
+test = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/latex-formatter"
+Documentation = "https://github.com/your-username/latex-formatter#readme"
+Repository = "https://github.com/your-username/latex-formatter"
+"Bug Tracker" = "https://github.com/your-username/latex-formatter/issues"
+Changelog = "https://github.com/your-username/latex-formatter/blob/main/CHANGELOG.md"
+
+[project.scripts]
+latex-format = "latex_formatter:main"
+latexfmt = "latex_formatter:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["latex_formatter*"]
+
+[tool.latex-formatter]
+line_length = 80
+indent_size = 2
+normalize_whitespace = true
+sort_packages = true
+align_environments = true
+fix_spacing = true
+normalize_commands = true
+remove_trailing_whitespace = true
+ensure_final_newline = true
+compress_empty_lines = true
+max_empty_lines = 2
+align_ampersands = true
+normalize_quotes = true
+fix_math_spacing = true
+
+# File patterns to include/exclude
+include = "*.tex"
+exclude = [
+    "build/",
+    "dist/",
+    ".git/",
+    "__pycache__/",
+    "*.aux",
+    "*.log",
+    "*.out",
+    "*.toc",
+    "*.bbl",
+    "*.blg",
+]
+
+# Custom rules for specific environments
+[tool.latex-formatter.environments]
+# Don't auto-indent these environments
+no_indent = ["verbatim", "lstlisting", "minted", "tikzpicture"]
+# Always add blank lines around these
+blank_lines_around = ["section", "subsection", "chapter", "part"]
+# Preserve exact formatting for these
+preserve_formatting = ["verbatim", "lstlisting", "minted"]
+
+[tool.latex-formatter.packages]
+# Group packages by category for better organization
+math = ["amsmath", "amssymb", "amsfonts", "mathtools", "amsthm"]
+graphics = ["graphicx", "tikz", "pgfplots", "subcaption", "float"]
+formatting = ["geometry", "fancyhdr", "setspace", "parskip", "indentfirst"]
+fonts = ["fontspec", "polyglossia", "babel", "inputenc", "fontenc"]
+tables = ["booktabs", "array", "longtable", "multirow", "tabularx"]
+references = ["hyperref", "cleveref", "natbib", "biblatex", "cite"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=latex_formatter",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false  # Disable globally to fix test decorator issues
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# Allow untyped decorators and functions in test files (for pytest fixtures and test functions)
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+strict_optional = false
+warn_unreachable = false
+
+# Additional override for specific test patterns
+[[tool.mypy.overrides]]
+module = "tests.conftest"
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203,W503"
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg-info",
+    ".venv",
+    ".mypy_cache",
+    ".pytest_cache",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]

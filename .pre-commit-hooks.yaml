@@ -1,0 +1,20 @@
+# Pre-commit hook configuration for LaTeX Formatter
+repos:
+  - repo: local
+    hooks:
+      - id: latex-formatter
+        name: LaTeX Formatter
+        entry: python latex_formatter.py
+        language: python
+        files: \.tex$
+        args: [--check]
+        additional_dependencies: []
+
+  - repo: local
+    hooks:
+      - id: latex-formatter-fix
+        name: LaTeX Formatter (auto-fix)
+        entry: python latex_formatter.py
+        language: python
+        files: \.tex$
+        additional_dependencies: []
