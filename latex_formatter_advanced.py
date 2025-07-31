@@ -15,7 +15,7 @@ from latex_formatter import LaTeXFormatter
 class AdvancedLaTeXFormatter(LaTeXFormatter):
     """Extended LaTeX formatter with advanced features."""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[Dict] = None, pattern_config_dir: Optional[str] = None):
         # Ensure we have all required config keys
         if config is None:
             config = self.default_config()
@@ -24,7 +24,7 @@ class AdvancedLaTeXFormatter(LaTeXFormatter):
             default_config = self.default_config()
             default_config.update(config)
             config = default_config
-        super().__init__(config)
+        super().__init__(config, pattern_config_dir)
         self.bibliography_styles = {
             "natbib": ["\\cite", "\\citep", "\\citet", "\\citeauthor"],
             "biblatex": ["\\autocite", "\\textcite", "\\parencite", "\\footcite"],

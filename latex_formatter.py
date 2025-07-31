@@ -19,7 +19,7 @@ __version__ = "1.0.0"
 class LaTeXFormatter:
     """Main LaTeX formatter class with comprehensive formatting rules."""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[Dict] = None, pattern_config_dir: Optional[str] = None):
         self.config = config or self.default_config()
         self.setup_logging()
         self.use_single_pass = False  # Performance optimization flag
@@ -36,6 +36,9 @@ class LaTeXFormatter:
         self._enabled_plugins: Dict[str, bool] = {}
         self._built_in_plugins: Dict = {}
         self._initialize_built_in_plugins()
+        # External pattern configuration
+        self._pattern_config_dir = pattern_config_dir
+        self._load_external_patterns()
 
     def default_config(self) -> Dict:
         """Default configuration for LaTeX formatting."""
@@ -116,8 +119,8 @@ class LaTeXFormatter:
             return None  # Return None on error as expected by tests
 
     def format_content(self, content: str) -> str:
-        """Main formatting pipeline with error recovery."""
-        self.logger.debug("Starting formatting pipeline")
+        """Main formatting pipeline with error recovery and scientific content protection (TDD Fix)."""
+        self.logger.debug("Starting formatting pipeline with scientific content protection")
 
         # TDD Cycle 4: Reset error tracking
         self.last_errors = []
@@ -130,13 +133,19 @@ class LaTeXFormatter:
         start_time = time.time()
 
         try:
+            # TDD Fix: Protect scientific content at the very beginning
+            protected, placeholders = self._protect_scientific_content(content)
+            
             if self.use_single_pass:
-                result = self._optimized_format_content(content)
+                result = self._optimized_format_content(protected)
             else:
-                result = self._format_with_error_recovery(content)
+                result = self._format_with_error_recovery(protected)
+
+            # TDD Fix: Restore scientific content
+            result = self._restore_scientific_content(result, placeholders)
 
             self._performance_metrics["error_recovery_time"] = time.time() - start_time
-            self.logger.debug("Formatting pipeline completed")
+            self.logger.debug("Formatting pipeline completed with scientific content protection")
             return result
 
         except Exception as e:
@@ -465,34 +474,31 @@ class LaTeXFormatter:
         return content
 
     def fix_spacing(self, content: str) -> str:
-        """Fix spacing issues in LaTeX."""
+        """Fix spacing issues in LaTeX with scientific content protection (TDD Fix)."""
         if not self.config.get("fix_spacing", True):
             return content
 
-        # Fix spacing around operators (but not in math mode)
-        # Only apply outside of math environments
-        def fix_non_math_spacing(text: str) -> str:
-            text = re.sub(r"\s*=\s*", " = ", text)
-            text = re.sub(r"\s*\+\s*", " + ", text)
-            text = re.sub(r"\s*-\s*", " - ", text)
-            return text
+        # TDD Fix: Protect scientific content first
+        protected, placeholders = self._protect_scientific_content(content)
 
-        # Split content by math delimiters and only fix spacing outside math
-        parts = re.split(r"(\$[^$]*\$|\$\$[^$]*\$\$)", content)
-        for i in range(0, len(parts), 2):  # Only process non-math parts
-            if parts[i]:
-                parts[i] = fix_non_math_spacing(parts[i])
-        content = "".join(parts)
+        # Apply spacing to mathematical expressions
+        # Apply regardless of placeholders since math should always be spaced
+        protected = re.sub(r'([a-zA-Z0-9])\s*=\s*([a-zA-Z0-9])', r'\1 = \2', protected)
+        protected = re.sub(r'([a-zA-Z0-9])\s*\+\s*([a-zA-Z0-9])', r'\1 + \2', protected)
+        protected = re.sub(r'([a-zA-Z0-9])\s*\*\s*([a-zA-Z0-9])', r'\1 * \2', protected)
 
-        # Fix spacing around braces
-        content = re.sub(r"\{\s+", "{", content)
-        content = re.sub(r"\s+\}", "}", content)
+        # Fix spacing around braces (but avoid package options)
+        # Only apply if no package options are present in placeholders
+        if not any('=' in original for original in placeholders.values()):
+            protected = re.sub(r"\{\s+", "{", protected)
+            protected = re.sub(r"\s+\}", "}", protected)
 
         # Fix spacing around brackets
-        content = re.sub(r"\[\s+", "[", content)
-        content = re.sub(r"\s+\]", "]", content)
+        protected = re.sub(r"\[\s+", "[", protected)
+        protected = re.sub(r"\s+\]", "]", protected)
 
-        return content
+        # TDD Fix: Restore protected content
+        return self._restore_scientific_content(protected, placeholders)
 
     def format_environments(self, content: str) -> str:
         """Format LaTeX environments with proper indentation."""
@@ -1535,6 +1541,107 @@ class LaTeXFormatter:
         return suggestions
 
     # TDD Cycle 5: Plugin Architecture Methods
+    def _load_external_patterns(self) -> None:
+        """Load protection patterns from external configuration files."""
+        try:
+            # Import pattern loader
+            import sys
+            from pathlib import Path
+            
+            # Add config directory to path if needed
+            config_dir = Path(__file__).parent / "config" / "formulas"
+            if self._pattern_config_dir:
+                config_dir = Path(self._pattern_config_dir)
+            
+            if str(config_dir.parent) not in sys.path:
+                sys.path.insert(0, str(config_dir.parent))
+            
+            from formulas.pattern_loader import PatternLoader
+            
+            # Load patterns from external configuration
+            pattern_loader = PatternLoader(str(config_dir))
+            self.protection_patterns = pattern_loader.load_scientific_patterns()
+            self.math_patterns = pattern_loader.load_math_patterns()
+            
+            self.logger.info(f"Loaded {len(self.protection_patterns)} protection patterns from external config")
+            
+        except ImportError as e:
+            self.logger.warning(f"Could not load external patterns, using defaults: {e}")
+            self._compile_default_protection_patterns()
+        except Exception as e:
+            self.logger.warning(f"Error loading external patterns, using defaults: {e}")
+            self._compile_default_protection_patterns()
+    
+    def _compile_default_protection_patterns(self) -> None:
+        """Compile default protection patterns as fallback."""
+        self.protection_patterns = [
+            # Specific scientific terms (most specific first)
+            re.compile(r'Li-S'),
+            re.compile(r'Li₂S₆'),
+            re.compile(r'CoSe₂'),
+            re.compile(r'Ti₃C₂Tₓ'),
+            re.compile(r'HKUST-1'),
+            re.compile(r'PPy@S/GA-VD'),
+            re.compile(r'Ni-HAB'),
+            re.compile(r'USTB-27-Co'),
+            re.compile(r'roll-to-roll'),
+            re.compile(r'X-ray'),
+            re.compile(r'charge-discharge'),
+            re.compile(r'solid-liquid-solid'),
+            re.compile(r'two-column'),
+            re.compile(r'two-dimensional'),
+            # Reference ranges
+            re.compile(r'References?\s+\d+-\d+'),
+            re.compile(r'pages?\s+\d+-\d+'),
+            re.compile(r'equations?\s+\d+-\d+'),
+            # Numerical ranges
+            re.compile(r'\d+\.?\d*-\d+\.?\d*'),
+            # Package options (critical for LaTeX compilation)
+            re.compile(r'\[[^=\]]*=[^=\]]*\]'),
+            # Comment lines with dashes (TDD Fix for comment formatting)
+            re.compile(r'%.*?---.*?---.*'),  # Comment lines with --- patterns
+            re.compile(r'%.*?-{10,}.*'),     # Comment lines with long dashes
+            re.compile(r'%.*?-\s*-\s*-.*'),  # Comment lines with spaced dashes
+            # General patterns (less specific, applied last)
+            re.compile(r'[A-Z][a-z]?[₀-₉]*-[A-Z][a-z]?[₀-₉]*'),  # Chemical formulas
+            re.compile(r'[A-Z][A-Za-z]*-[A-Za-z0-9]+'),  # Material names
+        ]
+        
+        self.math_patterns = {
+            "operators": ["=", "+", "-", "*", "/", "\\pm", "\\mp", "\\times", "\\div"],
+            "functions": ["\\sin", "\\cos", "\\tan", "\\log", "\\ln", "\\exp", "\\sqrt", "\\frac"],
+            "symbols": ["\\alpha", "\\beta", "\\gamma", "\\delta", "\\epsilon", "\\theta", "\\lambda", "\\mu", "\\pi", "\\sigma", "\\omega"],
+            "environments": ["equation", "align", "gather", "multline", "split", "alignat", "eqnarray"]
+        }
+
+    def _protect_scientific_content(self, content: str) -> tuple[str, Dict[str, str]]:
+        """Protect scientific content with placeholders (TDD Fix)"""
+        placeholders = {}
+        counter = 0
+        protected = content
+        
+        # Process patterns in order (most specific first)
+        for pattern in self.protection_patterns:
+            matches = list(pattern.finditer(protected))
+            # Process matches in reverse order to maintain string positions
+            for match in reversed(matches):
+                original = match.group(0)
+                placeholder = f"__PROTECT_{counter}__"
+                placeholders[placeholder] = original
+                
+                # Replace the specific match location
+                start, end = match.span()
+                protected = protected[:start] + placeholder + protected[end:]
+                counter += 1
+        
+        return protected, placeholders
+    
+    def _restore_scientific_content(self, content: str, placeholders: Dict[str, str]) -> str:
+        """Restore protected scientific content (TDD Fix)"""
+        for placeholder, original in placeholders.items():
+            content = content.replace(placeholder, original)
+        return content
+
     def _initialize_built_in_plugins(self) -> None:
         """Initialize built-in plugins."""
         self._built_in_plugins = {

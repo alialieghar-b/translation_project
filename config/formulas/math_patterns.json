@@ -1,0 +1,35 @@
+{
+  "operators": [
+    "=",
+    "+",
+    "-",
+    "*",
+    "/",
+    "\\pm",
+    "\\mp"
+  ],
+  "functions": [
+    "\\sin",
+    "\\cos",
+    "\\tan",
+    "\\log",
+    "\\ln",
+    "\\sqrt",
+    "\\frac"
+  ],
+  "symbols": [
+    "\\alpha",
+    "\\beta",
+    "\\gamma",
+    "\\delta",
+    "\\pi",
+    "\\sigma"
+  ],
+  "environments": [
+    "equation",
+    "align",
+    "gather",
+    "multline",
+    "split"
+  ]
+}

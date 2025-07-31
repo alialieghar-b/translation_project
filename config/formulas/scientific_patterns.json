@@ -1,0 +1,89 @@
+{
+  "chemical_formulas": [
+    "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
+    "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
+    "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe",
+    "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
+    "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra",
+    "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg",
+    "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og",
+    "H2", "D2", "T2", "O2", "N2", "O3", "F2", "Cl2", "Br2", "I2", "P4", "S8", "Se8",
+    "H2O", "CO2", "CO", "SO2", "SO3", "NO", "NO2", "N2O", "N2O3", "N2O4", "N2O5", "NH3", "NH4+", "CH4", "C2H6", "C2H4", "C2H2",
+    "C3H8", "C4H10", "C5H12", "C6H14", "C6H6", "C7H16", "C8H18", "C9H20", "C10H22", "C8H10", "C9H12",
+    "H2S", "H2Se", "H2Te", "HCl", "HBr", "HI", "HF", "HNO2", "HNO3", "H2SO4", "H2SO3", "H3PO4", "H3PO3",
+    "HClO", "HClO2", "HClO3", "HClO4", "H2CO3", "H2SiO3", "H2SiO4", "H2O2", "HOCl", "HOBr", "HOI",
+    "NaCl", "KCl", "CaCl2", "MgCl2", "LiCl", "RbCl", "CsCl", "BaCl2", "SrCl2", "AlCl3", "FeCl3", "FeCl2", "CuCl", "CuCl2", "ZnCl2", "PbCl2", "PbCl4",
+    "NaBr", "KBr", "RbBr", "CsBr", "NaI", "KI", "RbI", "CsI",
+    "NaF", "KF", "RbF", "CsF", "CaF2", "MgF2", "AlF3", "FeF2", "FeF3", "ZnF2", "PbF2",
+    "NaOH", "KOH", "LiOH", "RbOH", "CsOH", "Ca(OH)2", "Ba(OH)2", "Mg(OH)2", "Al(OH)3", "Fe(OH)2", "Fe(OH)3", "Cu(OH)2", "Ni(OH)2", "Co(OH)2", "Mn(OH)2", "Zn(OH)2", "Pb(OH)2",
+    "Na2CO3", "K2CO3", "Li2CO3", "Rb2CO3", "Cs2CO3", "CaCO3", "BaCO3", "MgCO3", "FeCO3", "MnCO3", "ZnCO3", "PbCO3",
+    "NaHCO3", "KHCO3", "Ca(HCO3)2", "Mg(HCO3)2", "NH4HCO3",
+    "Na2SO4", "K2SO4", "Li2SO4", "Rb2SO4", "Cs2SO4", "CaSO4", "BaSO4", "MgSO4", "FeSO4", "CuSO4", "ZnSO4", "MnSO4", "PbSO4", "Ag2SO4", "Al2(SO4)3", "Cr2(SO4)3", "NH4)2SO4",
+    "Na2SO3", "K2SO3", "CaSO3", "BaSO3", "MgSO3", "FeSO3", "ZnSO3",
+    "NaNO3", "KNO3", "LiNO3", "RbNO3", "CsNO3", "Ca(NO3)2", "Ba(NO3)2", "Mg(NO3)2", "Fe(NO3)2", "Fe(NO3)3", "Cu(NO3)2", "Zn(NO3)2", "Pb(NO3)2", "AgNO3", "NH4NO3",
+    "NaNO2", "KNO2", "Ca(NO2)2", "Ba(NO2)2", "Mg(NO2)2", "Fe(NO2)2", "Zn(NO2)2", "Cu(NO2)2", "NH4NO2",
+    "Na3PO4", "K3PO4", "Li3PO4", "Ca3(PO4)2", "Ba3(PO4)2", "Mg3(PO4)2", "FePO4", "AlPO4", "Zn3(PO4)2", "NH4)3PO4",
+    "NaH2PO4", "KH2PO4", "Ca(H2PO4)2", "Mg(H2PO4)2", "NH4H2PO4",
+    "Na2HPO4", "K2HPO4", "CaHPO4", "MgHPO4", "NH4)2HPO4",
+    "Na2S", "K2S", "Li2S", "Rb2S", "Cs2S", "CaS", "BaS", "MgS", "FeS", "ZnS", "MnS", "PbS", "CuS", "Ag2S", "Al2S3",
+    "Na2SO4", "K2SO4", "CaSO4", "BaSO4", "MgSO4", "FeSO4", "CuSO4", "ZnSO4", "MnSO4", "PbSO4", "Ag2SO4", "Al2(SO4)3", "NH4)2SO4",
+    "Li-S", "Li2S", "Li2S6", "Li2S4", "Li2S8", "S8", "Na2S6", "K2S6",
+    "LiFePO4", "LiCoO2", "LiNiO2", "LiMn2O4", "LiNiMnCoO2", "LiNi0.8Mn0.1Co0.1O2", "LiNi0.5Mn0.3Co0.2O2",
+    "LiNi0.8Co0.15Al0.05O2", "Li2CO3", "LiPF6", "LiTFSI", "LiBOB", "LiClO4", "Na3V2(PO4)3", "NaxCoO2", "NaTi2(PO4)3",
+    "Li2O", "LiNO3", "Li2SO4", "Li2MnO3", "Na2MnO3", "NaFePO4", "KFeO2", "K2MnO4", "AlPO4", "MgB2",
+    "CoSe2", "NiCo2O4", "MnO2", "MoS2", "WS2", "FeS2", "FeSe2", "SnS2", "SnSe2", "Sb2Se3", "Sb2S3", "ZnS", "Ni(OH)2", "Co(OH)2",
+    "NiFe2O4", "NiSe2", "CuS", "Cu2S", "ZnSe", "CuSe", "ZnSe2", "Cu2Se", "MoSe2", "NbSe2",
+    "Ti3C2Tx", "Ti2CTx", "V2CTx", "Nb2CTx", "Mo2CTx", "Cr2C3Tx",
+    "CuO", "Cu2O", "FeO", "Fe2O3", "Fe3O4", "MnO", "MnO2", "NiO", "CoO", "Co3O4", "ZnO", "PbO", "PbO2", "SnO", "SnO2", "Sb2O3", "Sb2S3", "Bi2O3", "TiO2", "ZrO2", "MoO3", "WO3", "V2O5", "Nb2O5", "Ta2O5", "SeO2", "TeO2", "SiO2", "GeO2",
+    "BN", "Si3N4", "AlN", "TiN", "ZrN", "Mg3N2", "Ca3N2",
+    "HKUST-1", "ZIF-8", "ZIF-67", "MIL-101", "MIL-53", "UiO-66", "MOF-5",
+    "FAU", "MFI", "LTA", "CHA", "BEA",
+    "graphite", "rGO", "GO", "CNT", "MWCNT", "SWCNT",
+    "PAN", "PVDF", "PEO", "PPy", "PEDOT:PSS", "PANI", "PVA", "PTFE", "Nafion", "PMMA",
+    "EC", "DMC", "DEC", "EMC", "FEC", "PC", "TEGDME", "DOL", "DME", "NMP", "DMF", "DMAc", "THF", "MeCN",
+    "NaPF6", "NaClO4", "NaFSI", "KPF6", "KFSI", "Mg(ClO4)2", "Zn(ClO4)2", "AlCl3", "Al(ClO4)3",
+    "Pt/C", "Pd/C", "Au/C", "PtRu", "PtNi", "PtCo", "PtSn",
+    "CuZn", "CuSn", "AlCu", "AlSi", "FeNi", "FeCr", "FeMn", "FeCo", "NiFe", "NiMn", "NiAl",
+    "B4C", "SiC", "WC", "TiC", "VC", "NbC", "MoC", "AlB2", "Mg2Si", "CuFeS2", "ZnFe2O4", "MnFe2O4", "CoFe2O4",
+    "Y2O3", "La2O3", "CeO2", "Gd2O3", "Sm2O3", "Pr6O11", "Tb4O7", "Er2O3", "Dy2O3", "Ho2O3", "Tm2O3", "Yb2O3",
+    "C6H12O6", "C2H5OH", "CH3COOH", "C6H6", "C2H4", "C3H8", "C4H10", "CH4", "C2H2", "C2H6", "C3H6", "CH3OH", "C5H5N",
+    "C6H5OH", "C6H5NH2", "C7H8", "C8H10", "C9H12", "C10H8", "C6H4Cl2", "C6H4Br2", "C6H4I2", "C6H4F2",
+    "HCOOH", "CH3COOH", "C2H3COOH", "C3H7COOH", "C4H9COOH", "C5H11COOH", "C6H13COOH", "C7H15COOH",
+    "C2H5O", "C3H7O", "C4H9O", "C5H11O", "C6H13O",
+    "C2H5Cl", "C2H5Br", "C2H5I",
+    "C6H5Cl", "C6H5Br", "C6H5I",
+    "C2H4Cl2", "C2H4Br2", "C2H4I2",
+    "C3H7Cl", "C3H7Br", "C3H7I",
+    "C4H9Cl", "C4H9Br", "C4H9I",
+    "C5H11Cl", "C5H11Br", "C5H11I",
+    "C6H13Cl", "C6H13Br", "C6H13I",
+    "C7H15Cl", "C7H15Br", "C7H15I",
+    "C8H17Cl", "C8H17Br", "C8H17I",
+    "C9H19Cl", "C9H19Br", "C9H19I",
+    "C10H21Cl", "C10H21Br", "C10H21I"
+  ]
+,
+  "compound_terms": [
+    "roll-to-roll",
+    "X-ray",
+    "charge-discharge",
+    "two-dimensional"
+  ],
+  "reference_patterns": [
+    "References?\\s+\\d+-\\d+",
+    "pages?\\s+\\d+-\\d+"
+  ],
+  "numerical_ranges": [
+    "\\d+\\.?\\d*-\\d+\\.?\\d*"
+  ],
+  "package_options": [
+    "\\[[^=\\]]*=[^=\\]]*\\]"
+  ],
+  "comment_patterns": [
+    "%.*?---.*?---.*",
+    "%.*?-{10,}.*"
+  ],
+  "general_patterns": [
+    "[A-Z][a-z]?[₀-₉]*-[A-Z][a-z]?[₀-₉]*"
+  ]
+}

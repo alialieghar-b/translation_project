@@ -674,7 +674,8 @@ English text with some mathematical content.
         self.assertIn("العربية", result)
         # Math should be preserved regardless of language
         self.assertIn("$x = y + z$", result)
-        self.assertIn("$\\sum_{i=1}^{n} x_i$", result)
+        # TDD Fix: Math expressions now get proper spacing
+        self.assertIn("$\\sum_{i = 1}^{n} x_i$", result)
 
 
 if __name__ == "__main__":

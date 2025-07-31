@@ -7,7 +7,7 @@ Focuses on end-to-end functionality and integration between components.
 from pathlib import Path
 from typing import Any
 
-import pytest
+#import pytest  # TDD Fix: Not needed for basic tests
 
 from latex_formatter import LaTeXFormatter
 
@@ -257,7 +257,7 @@ Content
 class TestPerformanceBasics:
     """Basic performance tests to ensure reasonable execution times."""
 
-    @pytest.mark.performance
+    # @pytest.mark.performance  # TDD Fix: Commented out
     def test_formatting_performance_small_document(
         self,
         basic_formatter: LaTeXFormatter,
@@ -273,7 +273,7 @@ class TestPerformanceBasics:
         assert performance_timer.elapsed < 1.0  # Less than 1 second
         assert result is not None
 
-    @pytest.mark.performance
+    # @pytest.mark.performance  # TDD Fix: Commented out
     def test_formatting_performance_medium_document(
         self,
         basic_formatter: LaTeXFormatter,

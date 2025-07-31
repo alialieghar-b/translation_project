@@ -16,12 +16,14 @@ A **Black/Ruff-style formatter for LaTeX files** that automatically formats, cle
 ## 📦 Installation
 
 ```bash
-# Install from source
+# Clone the repository
 git clone https://github.com/your-username/latex-formatter
 cd latex-formatter
+
+# Install in development mode (recommended)
 pip install -e .
 
-# Or install directly
+# Or install from PyPI (when available)
 pip install latex-formatter
 ```
 
@@ -86,24 +88,57 @@ git commit --no-verify
 
 ## 🔧 Usage
 
-### Command Line
+### Method 1: Direct Python Execution (Recommended)
 
 ```bash
 # Format files (modifies in-place)
-latex-format document.tex paper.tex
+python latex_formatter.py document.tex paper.tex
 
 # Check without modifying (exit code 1 if changes needed)
-latex-format --check document.tex
+python latex_formatter.py --check document.tex
 
 # Show diff of proposed changes
-latex-format --diff document.tex
+python latex_formatter.py --diff document.tex
 
 # Custom settings
-latex-format --line-length 100 --indent-size 4 document.tex
+python latex_formatter.py --line-length 100 --indent-size 4 document.tex
 
 # Format all LaTeX files
-latex-format *.tex
+python latex_formatter.py *.tex
 ```
+
+### Method 2: Enhanced CLI with Advanced Features
+
+```bash
+# Format files with enhanced CLI
+python cli.py format document.tex
+
+# Use advanced formatting features
+python cli.py format --advanced document.tex
+
+# Process multiple files in parallel
+python cli.py format --parallel *.tex
+
+# Analyze entire project for issues
+python cli.py analyze ./my-latex-project/
+
+# Check syntax only
+python cli.py check-syntax document.tex
+
+# Generate configuration template
+python cli.py config-template > pyproject.toml
+```
+
+### Method 3: Installed Command (if working)
+
+```bash
+# If the package is properly installed, you can use:
+latex-format document.tex
+latex-format --check document.tex
+latex-format --diff document.tex
+```
+
+> **⚠️ Troubleshooting**: If you get `ModuleNotFoundError: No module named 'latex_formatter'` when using `latex-format`, use Method 1 or 2 above. This is a common issue with Python package installation paths.
 
 ### Configuration
 
@@ -130,6 +165,9 @@ repos:
     rev: v1.0.0
     hooks:
       - id: latex-formatter
+        # Alternative: use local installation
+        # entry: python latex_formatter.py
+        # language: system
 ```
 
 ## 📝 Before & After Examples
@@ -232,27 +270,103 @@ black latex_formatter.py
 
 ## 📋 Command Line Options
 
+### Main Formatter (`python latex_formatter.py`)
+
 ```
-usage: latex-format [-h] [--check] [--diff] [--line-length LINE_LENGTH]
-                   [--indent-size INDENT_SIZE] [--config CONFIG] [--verbose]
-                   files [files ...]
+usage: latex_formatter.py [-h] [--check] [--diff] [--dry-run]
+                          [--line-length LINE_LENGTH]
+                          [--indent-size INDENT_SIZE] [--config CONFIG]
+                          [--logfile LOGFILE] [--verbose] [--version]
+                          files [files ...]
 
 LaTeX Formatter - Format LaTeX files like Black formats Python
 
 positional arguments:
   files                 LaTeX files to format
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   --check               Check if files are formatted without modifying them
   --diff                Show diff of changes
+  --dry-run             Show what would be changed without modifying files
   --line-length LINE_LENGTH
                         Maximum line length (default: 80)
   --indent-size INDENT_SIZE
                         Indentation size (default: 2)
-  --config CONFIG       Path to configuration file
+  --config CONFIG       Path to configuration file (JSON or TOML)
+  --logfile LOGFILE     Path to log file
   --verbose, -v         Verbose output
+  --version             show program's version number and exit
 ```
+
+### Enhanced CLI (`python cli.py`)
+
+```
+Usage: cli.py [OPTIONS] COMMAND [ARGS]...
+
+  LaTeX Formatter - A Black/Ruff-style formatter for LaTeX files.
+
+Commands:
+  format           Format LaTeX files
+  analyze          Analyze a LaTeX project for formatting issues
+  check-syntax     Check LaTeX files for syntax issues
+  config-template  Generate a configuration template
+
+Format command options:
+  --check                Check if files need formatting without modifying them
+  --diff                 Show diff of changes
+  --dry-run              Show what would be changed without modifying files
+  -p, --parallel         Process files in parallel
+  -a, --advanced         Use advanced formatting features
+  --line-length INTEGER  Maximum line length
+  --indent-size INTEGER  Indentation size
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### `ModuleNotFoundError: No module named 'latex_formatter'`
+
+This happens when the `latex-format` command can't find the installed module. **Solutions:**
+
+1. **Use direct Python execution** (recommended):
+   ```bash
+   python latex_formatter.py --check your-file.tex
+   ```
+
+2. **Reinstall the package**:
+   ```bash
+   pip uninstall latex-formatter
+   pip install -e .
+   ```
+
+3. **Use the enhanced CLI**:
+   ```bash
+   python cli.py format --check your-file.tex
+   ```
+
+#### File encoding issues
+
+If you get encoding errors:
+```bash
+# Ensure your LaTeX files are UTF-8 encoded
+python latex_formatter.py --verbose your-file.tex
+```
+
+#### Permission errors
+
+Make sure you have write permissions to the files you're trying to format:
+```bash
+chmod +w your-file.tex
+python latex_formatter.py your-file.tex
+```
+
+### Getting Help
+
+- Check the verbose output: `python latex_formatter.py --verbose your-file.tex`
+- Use syntax checking: `python cli.py check-syntax your-file.tex`
+- Analyze your project: `python cli.py analyze ./your-project/`
 
 ## 🤝 Contributing
 

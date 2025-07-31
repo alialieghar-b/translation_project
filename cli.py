@@ -24,12 +24,16 @@ from latex_formatter_advanced import (
 @click.option(
     "--config", "-c", type=click.Path(exists=True), help="Configuration file path"
 )
+@click.option(
+    "--pattern-config", type=click.Path(exists=True), help="Pattern configuration directory path"
+)
 @click.pass_context
-def cli(ctx: click.Context, verbose: bool, config: Optional[str]) -> None:
+def cli(ctx: click.Context, verbose: bool, config: Optional[str], pattern_config: Optional[str]) -> None:
     """LaTeX Formatter - A Black/Ruff-style formatter for LaTeX files."""
     ctx.ensure_object(dict)
     ctx.obj["verbose"] = verbose
     ctx.obj["config"] = config
+    ctx.obj["pattern_config"] = pattern_config
 
 
 @cli.command()
@@ -77,7 +81,7 @@ def format(
     # Choose formatter
     formatter: Union[LaTeXFormatter, AdvancedLaTeXFormatter]
     if advanced:
-        formatter = AdvancedLaTeXFormatter(config)
+        formatter = AdvancedLaTeXFormatter(config, pattern_config_dir=ctx.obj.get("pattern_config"))
         click.echo("Using advanced formatter with extended features")
     else:
         # Ensure config has all required keys by merging with default
@@ -85,7 +89,7 @@ def format(
             default_config = LaTeXFormatter().default_config()
             default_config.update(config)
             config = default_config
-        formatter = LaTeXFormatter(config)
+        formatter = LaTeXFormatter(config, pattern_config_dir=ctx.obj.get("pattern_config"))
 
     formatter.setup_logging(verbose=ctx.obj["verbose"])
 
@@ -451,6 +455,126 @@ fonts = ["fontspec", "polyglossia", "babel", "inputenc"]
         with open(output, "w") as f:
             f.write(template)
         click.echo(f"Configuration template written to {output}")
+
+
+@cli.group()
+@click.pass_context
+def patterns(ctx: click.Context) -> None:
+    """Manage formula and pattern configurations."""
+    pass
+
+
+@patterns.command()
+@click.argument("category", type=str)
+@click.argument("pattern", type=str)
+@click.option("--file", "-f", default="scientific_patterns.json", help="Pattern file to modify")
+@click.pass_context
+def add(ctx: click.Context, category: str, pattern: str, file: str) -> None:
+    """Add a new pattern to the specified category."""
+    try:
+        from config.formulas.pattern_loader import PatternLoader
+        
+        config_dir = ctx.obj.get("pattern_config") or "config/formulas"
+        loader = PatternLoader(config_dir)
+        
+        if loader.add_pattern(category, pattern, file):
+            click.echo(f"Added pattern '{pattern}' to category '{category}' in {file}")
+        else:
+            click.echo(f"Pattern '{pattern}' already exists in category '{category}'")
+            
+    except Exception as e:
+        click.echo(f"Error adding pattern: {e}", err=True)
+
+
+@patterns.command()
+@click.argument("category", type=str)
+@click.argument("pattern", type=str)
+@click.option("--file", "-f", default="scientific_patterns.json", help="Pattern file to modify")
+@click.pass_context
+def remove(ctx: click.Context, category: str, pattern: str, file: str) -> None:
+    """Remove a pattern from the specified category."""
+    try:
+        from config.formulas.pattern_loader import PatternLoader
+        
+        config_dir = ctx.obj.get("pattern_config") or "config/formulas"
+        loader = PatternLoader(config_dir)
+        
+        if loader.remove_pattern(category, pattern, file):
+            click.echo(f"Removed pattern '{pattern}' from category '{category}' in {file}")
+        else:
+            click.echo(f"Pattern '{pattern}' not found in category '{category}'")
+            
+    except Exception as e:
+        click.echo(f"Error removing pattern: {e}", err=True)
+
+
+@patterns.command()
+@click.option("--file", "-f", default="scientific_patterns.json", help="Pattern file to list")
+@click.pass_context
+def list(ctx: click.Context, file: str) -> None:
+    """List all patterns in the specified file."""
+    try:
+        from config.formulas.pattern_loader import PatternLoader
+        
+        config_dir = ctx.obj.get("pattern_config") or "config/formulas"
+        loader = PatternLoader(config_dir)
+        
+        patterns = loader.list_patterns(file)
+        
+        if patterns:
+            click.echo(f"Patterns in {file}:")
+            for category, pattern_list in patterns.items():
+                click.echo(f"\n{category}:")
+                for pattern in pattern_list:
+                    click.echo(f"  - {pattern}")
+        else:
+            click.echo(f"No patterns found in {file}")
+            
+    except Exception as e:
+        click.echo(f"Error listing patterns: {e}", err=True)
+
+
+@patterns.command()
+@click.pass_context
+def init(ctx: click.Context) -> None:
+    """Initialize pattern configuration directory with default files."""
+    try:
+        import os
+        import json
+        
+        config_dir = ctx.obj.get("pattern_config") or "config/formulas"
+        os.makedirs(config_dir, exist_ok=True)
+        
+        # Create default scientific patterns
+        scientific_patterns = {
+            "chemical_formulas": ["Li-S", "Li₂S₆", "CoSe₂", "Ti₃C₂Tₓ", "HKUST-1"],
+            "compound_terms": ["roll-to-roll", "X-ray", "charge-discharge", "two-dimensional"],
+            "reference_patterns": ["References?\\s+\\d+-\\d+", "pages?\\s+\\d+-\\d+"],
+            "numerical_ranges": ["\\d+\\.?\\d*-\\d+\\.?\\d*"],
+            "package_options": ["\\[[^=\\]]*=[^=\\]]*\\]"],
+            "comment_patterns": ["%.*?---.*?---.*", "%.*?-{10,}.*"],
+            "general_patterns": ["[A-Z][a-z]?[₀-₉]*-[A-Z][a-z]?[₀-₉]*"]
+        }
+        
+        # Create default math patterns
+        math_patterns = {
+            "operators": ["=", "+", "-", "*", "/", "\\pm", "\\mp"],
+            "functions": ["\\sin", "\\cos", "\\tan", "\\log", "\\ln", "\\sqrt", "\\frac"],
+            "symbols": ["\\alpha", "\\beta", "\\gamma", "\\delta", "\\pi", "\\sigma"],
+            "environments": ["equation", "align", "gather", "multline", "split"]
+        }
+        
+        # Write files
+        with open(os.path.join(config_dir, "scientific_patterns.json"), "w") as f:
+            json.dump(scientific_patterns, f, indent=2, ensure_ascii=False)
+            
+        with open(os.path.join(config_dir, "math_patterns.json"), "w") as f:
+            json.dump(math_patterns, f, indent=2, ensure_ascii=False)
+            
+        click.echo(f"Initialized pattern configuration in {config_dir}")
+        
+    except Exception as e:
+        click.echo(f"Error initializing patterns: {e}", err=True)
 
 
 if __name__ == "__main__":
