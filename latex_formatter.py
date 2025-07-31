@@ -1622,17 +1622,28 @@ class LaTeXFormatter:
         
         # Process patterns in order (most specific first)
         for pattern in self.protection_patterns:
-            matches = list(pattern.finditer(protected))
-            # Process matches in reverse order to maintain string positions
-            for match in reversed(matches):
-                original = match.group(0)
-                placeholder = f"__PROTECT_{counter}__"
-                placeholders[placeholder] = original
+            try:
+                matches = []
+                for match in pattern.finditer(protected):
+                    matches.append(match)
+                    # Safety limit to prevent excessive processing
+                    if len(matches) > 5000:
+                        self.logger.warning(f"Too many matches for pattern {pattern.pattern}, limiting to 5000")
+                        break
                 
-                # Replace the specific match location
-                start, end = match.span()
-                protected = protected[:start] + placeholder + protected[end:]
-                counter += 1
+                # Process matches in reverse order to maintain string positions
+                for match in reversed(matches):
+                    original = match.group(0)
+                    placeholder = f"__PROTECT_{counter}__"
+                    placeholders[placeholder] = original
+                    
+                    # Replace the specific match location
+                    start, end = match.span()
+                    protected = protected[:start] + placeholder + protected[end:]
+                    counter += 1
+            except Exception as e:
+                self.logger.warning(f"Error processing pattern {pattern.pattern}: {e}")
+                continue
         
         return protected, placeholders
     
