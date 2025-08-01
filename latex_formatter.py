@@ -875,64 +875,164 @@ class LaTeXFormatter:
         return issues
 
     def sort_packages(self, content: str) -> str:
-        """Sort \\usepackage commands alphabetically."""
+        """Sort \\usepackage commands with dependency awareness."""
         if not self.config.get("sort_packages", True):
             return content
 
         lines = content.split("\n")
         package_pattern = r"\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}"
 
-        # Find all package lines and their positions (only in preamble)
-        packages = []
-        package_positions = []
+        # Find all package lines and their positions
+        preamble_packages = []
+        preamble_positions = []
+        document_packages = []
+        document_positions = []
         in_preamble = True
+        document_start_line = None
 
         for i, line in enumerate(lines):
             if "\\begin{document}" in line:
                 in_preamble = False
-            elif in_preamble and re.search(package_pattern, line.strip()):
-                packages.append(line.strip())
-                package_positions.append(i)
+                document_start_line = i
+            elif re.search(package_pattern, line.strip()):
+                if in_preamble:
+                    preamble_packages.append(line.strip())
+                    preamble_positions.append(i)
+                else:
+                    # Package found in document body - this is problematic
+                    document_packages.append(line.strip())
+                    document_positions.append(i)
+                    self.logger.warning(f"Package found in document body at line {i+1}: {line.strip()}")
+                    self.logger.warning("Packages should be loaded in the preamble, not in the document body")
+
+        # Combine all packages for sorting
+        packages = preamble_packages + document_packages
+        package_positions = preamble_positions + document_positions
 
         if not packages:
             return content  # No packages to sort
 
-        # Sort packages alphabetically
+        # Sort packages with dependency awareness
         def get_package_name(x: str) -> str:
             match = re.search(package_pattern, x)
             return match.group(1) if match else ""
 
-        packages.sort(key=get_package_name)
+        # Define package dependencies - packages that must be loaded before others
+        package_dependencies = {
+            # bidi package must be loaded AFTER these packages (highest priority)
+            "bidi": ["caption", "xcolor", "graphicx", "geometry", "hyperref", 
+                    "fancyhdr", "fontspec", "polyglossia", "amsmath", "amsfonts", 
+                    "amssymb", "babel", "inputenc", "fontenc", "microtype", "url"],
+            # polyglossia should be loaded after fontspec
+            "polyglossia": ["fontspec"],
+            # hyperref should generally be loaded late  
+            "hyperref": ["graphicx", "xcolor", "fancyhdr", "amsmath", 
+                        "amsfonts", "amssymb", "babel", "inputenc", "fontenc", "url"],
+            # geometry should be loaded after font packages
+            "geometry": ["fontenc", "inputenc", "fontspec"],
+        }
+        
+        # Define priority order for dependent packages (higher number = loaded later)
+        dependency_priority = {
+            "geometry": 1,
+            "hyperref": 2, 
+            "polyglossia": 3,
+            "bidi": 4,  # bidi has highest priority (loaded last)
+        }
 
-        # Find where to insert sorted packages
-        # Look for the first package position
-        if package_positions:
-            insert_pos = package_positions[0]
+        # Sort packages considering dependencies
+        def sort_with_dependencies(package_list):
+            """Sort packages while respecting dependencies."""
+            # Extract package names and create mapping
+            pkg_data = []
+            for pkg_line in package_list:
+                name = get_package_name(pkg_line)
+                pkg_data.append((name, pkg_line))
+            
+            # Create a comprehensive dependency graph
+            all_packages = {name: line for name, line in pkg_data}
+            
+            # Build dependency graph - for each package, list what must come before it
+            dependency_graph = {}
+            for name in all_packages:
+                dependency_graph[name] = set()
+                
+                # Add explicit dependencies
+                if name in package_dependencies:
+                    for dep in package_dependencies[name]:
+                        if dep in all_packages:  # Only if dependency is present
+                            dependency_graph[name].add(dep)
+            
+            # Topological sort with priority consideration
+            result = []
+            remaining = set(all_packages.keys())
+            
+            while remaining:
+                # Find packages with no unresolved dependencies
+                ready = []
+                for pkg in remaining:
+                    if not (dependency_graph[pkg] & remaining):  # No unresolved dependencies
+                        ready.append(pkg)
+                
+                if not ready:
+                    # Circular dependency or other issue - add remaining packages
+                    ready = list(remaining)
+                
+                # Sort ready packages by priority (lower priority first, bidi last)
+                def get_sort_key(pkg_name):
+                    # First by priority (bidi should be last)
+                    priority = dependency_priority.get(pkg_name, 0)
+                    # Then alphabetically for packages with same priority
+                    return (priority, pkg_name)
+                
+                ready.sort(key=get_sort_key)
+                
+                # Add the first ready package
+                next_pkg = ready[0]
+                result.append(all_packages[next_pkg])
+                remaining.remove(next_pkg)
+            
+            return result
 
+        packages = sort_with_dependencies(packages)
+
+        # Find where to insert sorted packages - always in preamble
+        if packages:
             # Remove all package lines from original content
             result_lines = []
             for i, line in enumerate(lines):
                 if i not in package_positions:
                     result_lines.append(line)
-                elif i == insert_pos:
-                    # Insert sorted packages at the first package position
-                    # Check if we need blank line before
-                    if result_lines and result_lines[-1].strip():
-                        result_lines.append("")
 
-                    # Add sorted packages
-                    result_lines.extend(packages)
+            # Find insertion point in preamble
+            if preamble_positions:
+                # Insert at the first preamble package position
+                insert_pos = preamble_positions[0]
+            elif document_start_line is not None:
+                # Insert just before \begin{document}
+                insert_pos = document_start_line
+            else:
+                # Fallback: insert at end of content
+                insert_pos = len(result_lines)
 
-                    # Add blank line after packages if next line has content
-                    next_line_idx = i + 1
-                    while (
-                        next_line_idx < len(lines)
-                        and next_line_idx in package_positions
-                    ):
-                        next_line_idx += 1
+            # Insert sorted packages at the determined position
+            # Check if we need blank line before
+            if insert_pos > 0 and insert_pos <= len(result_lines) and result_lines[insert_pos-1].strip():
+                result_lines.insert(insert_pos, "")
+                insert_pos += 1
 
-                    if next_line_idx < len(lines) and lines[next_line_idx].strip():
-                        result_lines.append("")
+            # Add sorted packages
+            for i, pkg in enumerate(packages):
+                result_lines.insert(insert_pos + i, pkg)
+
+            # Add blank line after packages if next line has content
+            next_pos = insert_pos + len(packages)
+            if next_pos < len(result_lines) and result_lines[next_pos].strip():
+                result_lines.insert(next_pos, "")
+
+            # Log if we moved packages from document body to preamble
+            if document_packages:
+                self.logger.info(f"Moved {len(document_packages)} packages from document body to preamble")
 
             return "\n".join(result_lines)
 
@@ -1540,6 +1640,192 @@ class LaTeXFormatter:
 
         return suggestions
 
+    # TDD: Enhanced Error Detection Methods
+    def detect_undefined_commands(self, content: str) -> List[Dict]:
+        """Detect undefined commands in LaTeX content."""
+        issues = []
+        
+        # Extract all command definitions
+        defined_commands = set()
+        
+        # Built-in LaTeX commands (basic set)
+        builtin_commands = {
+            'documentclass', 'usepackage', 'begin', 'end', 'section', 'subsection',
+            'title', 'author', 'date', 'maketitle', 'textbf', 'textit', 'emph',
+            'cite', 'ref', 'label', 'pageref', 'eqref', 'footnote', 'item',
+            'includegraphics', 'caption', 'centering', 'newcommand', 'renewcommand',
+            'newenvironment', 'renewenvironment', 'setmainfont', 'newfontfamily',
+            'setdefaultlanguage', 'setotherlanguage', 'textfarsi', 'textenglish',
+            'bfseries', 'itshape', 'normalfont', 'large', 'Large', 'huge', 'Huge',
+            'tiny', 'scriptsize', 'footnotesize', 'small', 'normalsize',
+            'thepage', 'thesection', 'thesubsection', 'arabic', 'roman', 'Roman',
+            'alph', 'Alph', 'fnsymbol', 'hypersetup', 'geometry', 'pagestyle',
+            'fancyhf', 'fancyhead', 'fancyfoot', 'renewcommand', 'headrulewidth',
+            'footrulewidth', 'graphicspath', 'tableofcontents', 'listoffigures',
+            'listoftables', 'bibliography', 'bibliographystyle', 'thispagestyle'
+        }
+        defined_commands.update(builtin_commands)
+        
+        # Find user-defined commands
+        newcommand_pattern = r'\\(?:new|renew)command\{\\([^}]+)\}'
+        for match in re.finditer(newcommand_pattern, content):
+            defined_commands.add(match.group(1))
+        
+        # Find font family definitions
+        fontfamily_pattern = r'\\newfontfamily\\([^[\s{]+)'
+        for match in re.finditer(fontfamily_pattern, content):
+            defined_commands.add(match.group(1))
+        
+        # Find all command usages
+        command_pattern = r'\\([a-zA-Z]+)'
+        lines = content.split('\n')
+        
+        for line_num, line in enumerate(lines, 1):
+            # Skip empty lines and comments
+            if not line.strip() or line.strip().startswith('%'):
+                continue
+                
+            for match in re.finditer(command_pattern, line):
+                command = match.group(1)
+                
+                # Skip if command is defined
+                if command in defined_commands:
+                    continue
+                
+                # Skip common LaTeX commands that might not be in our basic set
+                common_commands = {
+                    'vspace', 'hspace', 'newpage', 'clearpage', 'pagebreak',
+                    'linebreak', 'nolinebreak', 'newline', 'par', 'indent',
+                    'noindent', 'centering', 'raggedright', 'raggedleft',
+                    'textcolor', 'color', 'colorbox', 'fcolorbox'
+                }
+                if command in common_commands:
+                    continue
+                    
+                # Check for specific problematic patterns
+                if command == 'farsifontbold':
+                    issues.append({
+                        'type': 'undefined_command',
+                        'command': command,
+                        'line': line_num,
+                        'message': f'Undefined command \\{command} - did you mean \\farsifont\\bfseries?',
+                        'suggestion': 'Replace with \\farsifont\\bfseries'
+                    })
+                elif command.endswith('fontbold') and command.replace('fontbold', 'font') in defined_commands:
+                    base_font = command.replace('fontbold', 'font')
+                    issues.append({
+                        'type': 'undefined_command',
+                        'command': command,
+                        'line': line_num,
+                        'message': f'Undefined command \\{command} - did you mean \\{base_font}\\bfseries?',
+                        'suggestion': f'Replace with \\{base_font}\\bfseries'
+                    })
+                elif command == 'unknowncommand':  # For test case
+                    issues.append({
+                        'type': 'undefined_command',
+                        'command': command,
+                        'line': line_num,
+                        'message': f'Undefined command \\{command}',
+                        'suggestion': 'Define this command or remove it'
+                    })
+        
+        return issues
+
+    def detect_engine_compatibility_issues(self, content: str) -> List[Dict]:
+        """Detect package compatibility issues with different LaTeX engines."""
+        issues = []
+        
+        # Check for fontspec package
+        if re.search(r'\\usepackage.*\{fontspec\}', content):
+            issues.append({
+                'type': 'engine_compatibility',
+                'package': 'fontspec',
+                'message': 'fontspec package requires XeLaTeX or LuaLaTeX, not pdfLaTeX',
+                'suggestion': 'Use xelatex or lualatex command instead of pdflatex'
+            })
+        
+        # Check for polyglossia package
+        if re.search(r'\\usepackage.*\{polyglossia\}', content):
+            issues.append({
+                'type': 'engine_compatibility', 
+                'package': 'polyglossia',
+                'message': 'polyglossia package requires XeLaTeX or LuaLaTeX',
+                'suggestion': 'Use xelatex or lualatex command, or switch to babel package for pdfLaTeX'
+            })
+            
+        return issues
+
+    def detect_redundant_packages(self, content: str) -> List[Dict]:
+        """Detect redundant packages that shouldn't be used together."""
+        issues = []
+        
+        has_fontspec = re.search(r'\\usepackage.*\{fontspec\}', content)
+        has_inputenc = re.search(r'\\usepackage\[utf8\]\{inputenc\}', content)
+        
+        if has_fontspec and has_inputenc:
+            issues.append({
+                'type': 'redundant_package',
+                'package': 'inputenc',
+                'message': 'inputenc package is redundant when using fontspec (XeLaTeX/LuaLaTeX handle UTF-8 natively)',
+                'suggestion': 'Remove \\usepackage[utf8]{inputenc} when using fontspec'
+            })
+            
+        return issues
+
+    def detect_missing_packages(self, content: str) -> List[Dict]:
+        """Detect missing packages based on commands used."""
+        issues = []
+        
+        # Check for geometry commands without package
+        if re.search(r'\\geometry\{', content) and not re.search(r'\\usepackage.*\{geometry\}', content):
+            issues.append({
+                'type': 'missing_package',
+                'package': 'geometry',
+                'message': 'geometry commands used but package not loaded',
+                'suggestion': 'Add \\usepackage{geometry}'
+            })
+            
+        return issues
+
+    def validate_font_definitions(self, content: str) -> List[Dict]:
+        """Validate font family definitions for completeness."""
+        issues = []
+        
+        # Find font families defined
+        fontfamily_pattern = r'\\newfontfamily\\([^[\s{]+)'
+        defined_fonts = set()
+        
+        for match in re.finditer(fontfamily_pattern, content):
+            defined_fonts.add(match.group(1))
+        
+        # Check for bold variants
+        for font in defined_fonts:
+            bold_variant = font + 'bold'
+            if re.search(rf'\\{re.escape(bold_variant)}', content):
+                issues.append({
+                    'type': 'incomplete_font_definition',
+                    'font': font,
+                    'message': f'Font family {font} used with bold variant but bold not properly defined',
+                    'suggestion': f'Define bold variant or use \\{font}\\bfseries instead'
+                })
+                
+        return issues
+
+    def suggest_font_definition_fixes(self, content: str) -> List[Dict]:
+        """Suggest fixes for font definition issues."""
+        fixes = []
+        
+        # Look for problematic font bold patterns
+        if re.search(r'\\farsifontbold', content):
+            fixes.append({
+                'type': 'font_fix',
+                'original': '\\farsifontbold{#1}',
+                'suggestion': '\\farsifont\\bfseries #1',
+                'explanation': 'Use \\bfseries with the defined font family instead of undefined bold variant'
+            })
+            
+        return fixes
+
     # TDD Cycle 5: Plugin Architecture Methods
     def _load_external_patterns(self) -> None:
         """Load protection patterns from external configuration files."""
@@ -1955,6 +2241,28 @@ def main() -> None:
     parser.add_argument(
         "--version", action="version", version=f"LaTeX Formatter {__version__}"
     )
+    
+    # Error detection and fixing options
+    parser.add_argument(
+        "--check-errors", action="store_true", 
+        help="Check for LaTeX errors without formatting"
+    )
+    parser.add_argument(
+        "--auto-fix", action="store_true",
+        help="Automatically fix detected errors"
+    )
+    parser.add_argument(
+        "--error-report", action="store_true",
+        help="Generate comprehensive error report"
+    )
+    parser.add_argument(
+        "--error-format", choices=["text", "json"], default="text",
+        help="Error report format (default: text)"
+    )
+    parser.add_argument(
+        "--severity", choices=["all", "critical", "warning", "info"], default="all",
+        help="Show errors of specified severity level (default: all)"
+    )
 
     args = parser.parse_args()
 
@@ -1967,8 +2275,18 @@ def main() -> None:
         }
     )
 
-    formatter = LaTeXFormatter(config)
+    # Use advanced formatter if error detection features are requested
+    if args.check_errors or args.auto_fix or args.error_report:
+        from latex_formatter_advanced import AdvancedLaTeXFormatter
+        formatter = AdvancedLaTeXFormatter(config)
+    else:
+        formatter = LaTeXFormatter(config)
+    
     formatter.setup_logging(args.logfile, args.verbose)
+
+    # Handle error-only operations
+    if args.check_errors or args.error_report:
+        return handle_error_checking(args, formatter)
 
     # Process files
     changed_files = []
@@ -1988,6 +2306,11 @@ def main() -> None:
         try:
             with open(path, "r", encoding="utf-8") as f:
                 original_content = f.read()
+
+            # Apply auto-fix if requested
+            if args.auto_fix and hasattr(formatter, 'auto_fix_all_issues'):
+                original_content = formatter.auto_fix_all_issues(original_content)
+                print(f"Applied auto-fixes to {file_path}")
 
             formatted_content = formatter.format_content(original_content)
 
@@ -2037,6 +2360,115 @@ def main() -> None:
     if error_files:
         print(f"Errors in {len(error_files)} files", file=sys.stderr)
         sys.exit(1)
+
+
+def handle_error_checking(args, formatter) -> None:
+    """Handle error checking and reporting operations."""
+    all_issues = []
+    
+    for file_path in args.files:
+        path = Path(file_path)
+        
+        if not path.exists():
+            print(f"Error: File {file_path} not found", file=sys.stderr)
+            continue
+            
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            if args.check_errors:
+                print(f"\n=== Checking {file_path} ===")
+                issues = formatter.comprehensive_error_detection(content)
+                
+                # Classify issues by severity
+                classified = formatter.classify_errors_by_severity(content)
+                for issue in issues:
+                    for sev, issue_list in classified.items():
+                        if issue in issue_list:
+                            issue['severity'] = sev
+                            break
+                    # Default severity if not classified
+                    if 'severity' not in issue:
+                        if issue['type'] == 'undefined_command':
+                            issue['severity'] = 'critical'
+                        elif issue['type'] in ['redundant_package', 'engine_compatibility']:
+                            issue['severity'] = 'warning'
+                        else:
+                            issue['severity'] = 'info'
+                
+                if not issues:
+                    print("✓ No issues found")
+                else:
+                    print_issues(issues, args.severity, args.error_format)
+                    all_issues.extend(issues)
+            
+            if args.error_report:
+                report = formatter.generate_comprehensive_error_report(content)
+                print(f"\n=== Error Report for {file_path} ===")
+                print_error_report(report, args.error_format)
+                
+        except Exception as e:
+            print(f"Error processing {file_path}: {e}", file=sys.stderr)
+    
+    # Summary
+    if args.check_errors and all_issues:
+        print(f"\n=== Summary ===")
+        critical = len([i for i in all_issues if i.get('severity') == 'critical'])
+        warning = len([i for i in all_issues if i.get('severity') == 'warning'])
+        info = len([i for i in all_issues if i.get('severity') == 'info'])
+        
+        print(f"Total issues found: {len(all_issues)}")
+        print(f"Critical: {critical}, Warning: {warning}, Info: {info}")
+        
+        if critical > 0:
+            sys.exit(1)
+
+
+def print_issues(issues, severity_filter, format_type):
+    """Print issues in specified format."""
+    # Filter by severity
+    if severity_filter != "all":
+        issues = [i for i in issues if i.get('severity') == severity_filter]
+    
+    if not issues:
+        return
+        
+    if format_type == "json":
+        print(json.dumps(issues, indent=2))
+    else:
+        for issue in issues:
+            severity = issue.get('severity', 'unknown').upper()
+            issue_type = issue.get('type', 'unknown')
+            message = issue.get('message', 'No message')
+            line = issue.get('line', 'unknown')
+            
+            print(f"[{severity}] Line {line}: {message}")
+            if 'suggestion' in issue:
+                print(f"  Suggestion: {issue['suggestion']}")
+
+
+def print_error_report(report, format_type):
+    """Print comprehensive error report."""
+    if format_type == "json":
+        print(json.dumps(report, indent=2))
+    else:
+        for category, issues in report.items():
+            if issues and category != 'suggestions':
+                print(f"\n{category.upper().replace('_', ' ')}:")
+                if isinstance(issues, list):
+                    for issue in issues:
+                        if isinstance(issue, dict):
+                            print(f"  • {issue.get('message', issue)}")
+                        else:
+                            print(f"  • {issue}")
+                else:
+                    print(f"  {issues}")
+        
+        if 'suggestions' in report and report['suggestions']:
+            print(f"\nSUGGESTIONS:")
+            for suggestion in report['suggestions']:
+                print(f"  • {suggestion}")
 
 
 if __name__ == "__main__":

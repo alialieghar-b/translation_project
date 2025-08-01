@@ -48,6 +48,9 @@ def cli(ctx: click.Context, verbose: bool, config: Optional[str], pattern_config
     "--dry-run", is_flag=True, help="Show what would be changed without modifying files"
 )
 @click.option("--parallel", "-p", is_flag=True, help="Process files in parallel")
+@click.option(
+    "--auto-fix", is_flag=True, help="Automatically fix detected errors before formatting"
+)
 @click.option("--advanced", "-a", is_flag=True, help="Use advanced formatting features")
 @click.option("--line-length", type=int, default=80, help="Maximum line length")
 @click.option("--indent-size", type=int, default=2, help="Indentation size")
@@ -575,6 +578,187 @@ def init(ctx: click.Context) -> None:
         
     except Exception as e:
         click.echo(f"Error initializing patterns: {e}", err=True)
+
+
+# Add new error detection commands
+@cli.command("check-errors")
+@click.argument("files", nargs=-1, type=click.Path(exists=True), required=True)
+@click.option(
+    "--severity", 
+    type=click.Choice(["all", "critical", "warning", "info"]), 
+    default="all",
+    help="Show errors of specified severity level"
+)
+@click.option(
+    "--format", "output_format",
+    type=click.Choice(["text", "json"]), 
+    default="text",
+    help="Output format for error report"
+)
+@click.pass_context
+def check_errors(
+    ctx: click.Context,
+    files: Tuple[str, ...],
+    severity: str,
+    output_format: str,
+) -> None:
+    """Check LaTeX files for errors without formatting."""
+    import json
+    
+    config = load_config_from_context(ctx)
+    formatter = AdvancedLaTeXFormatter(config, ctx.obj.get("pattern_config"))
+    
+    all_issues = []
+    
+    for file_path in files:
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            click.echo(f"\n=== Checking {file_path} ===")
+            issues = formatter.comprehensive_error_detection(content)
+            
+            # Classify issues by severity
+            classified = formatter.classify_errors_by_severity(content)
+            for issue in issues:
+                for sev, issue_list in classified.items():
+                    if issue in issue_list:
+                        issue['severity'] = sev
+                        break
+            
+            # Filter by severity
+            if severity != "all":
+                issues = [i for i in issues if i.get('severity') == severity]
+            
+            if not issues:
+                click.echo("✓ No issues found")
+            else:
+                if output_format == "json":
+                    click.echo(json.dumps(issues, indent=2))
+                else:
+                    for issue in issues:
+                        sev = issue.get('severity', 'unknown').upper()
+                        line = issue.get('line', 'unknown')
+                        message = issue.get('message', 'No message')
+                        click.echo(f"[{sev}] Line {line}: {message}")
+                        if 'suggestion' in issue:
+                            click.echo(f"  Suggestion: {issue['suggestion']}")
+                
+                all_issues.extend(issues)
+                
+        except Exception as e:
+            click.echo(f"Error processing {file_path}: {e}", err=True)
+    
+    # Summary
+    if all_issues:
+        click.echo(f"\n=== Summary ===")
+        critical = len([i for i in all_issues if i.get('severity') == 'critical'])
+        warning = len([i for i in all_issues if i.get('severity') == 'warning'])
+        info = len([i for i in all_issues if i.get('severity') == 'info'])
+        
+        click.echo(f"Total issues found: {len(all_issues)}")
+        click.echo(f"Critical: {critical}, Warning: {warning}, Info: {info}")
+        
+        if critical > 0:
+            sys.exit(1)
+
+
+@cli.command("error-report")
+@click.argument("files", nargs=-1, type=click.Path(exists=True), required=True)
+@click.option(
+    "--format", "output_format",
+    type=click.Choice(["text", "json"]), 
+    default="text",
+    help="Output format for error report"
+)
+@click.pass_context
+def error_report(
+    ctx: click.Context,
+    files: Tuple[str, ...],
+    output_format: str,
+) -> None:
+    """Generate comprehensive error report for LaTeX files."""
+    import json
+    
+    config = load_config_from_context(ctx)
+    formatter = AdvancedLaTeXFormatter(config, ctx.obj.get("pattern_config"))
+    
+    for file_path in files:
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            click.echo(f"\n=== Error Report for {file_path} ===")
+            report = formatter.generate_comprehensive_error_report(content)
+            
+            if output_format == "json":
+                click.echo(json.dumps(report, indent=2))
+            else:
+                for category, issues in report.items():
+                    if issues and category != 'suggestions':
+                        click.echo(f"\n{category.upper().replace('_', ' ')}:")
+                        if isinstance(issues, list):
+                            for issue in issues:
+                                if isinstance(issue, dict):
+                                    click.echo(f"  • {issue.get('message', issue)}")
+                                else:
+                                    click.echo(f"  • {issue}")
+                        else:
+                            click.echo(f"  {issues}")
+                
+                if 'suggestions' in report and report['suggestions']:
+                    click.echo(f"\nSUGGESTIONS:")
+                    for suggestion in report['suggestions']:
+                        click.echo(f"  • {suggestion}")
+                        
+        except Exception as e:
+            click.echo(f"Error processing {file_path}: {e}", err=True)
+
+
+@cli.command("auto-fix")
+@click.argument("files", nargs=-1, type=click.Path(exists=True), required=True)
+@click.option(
+    "--dry-run", is_flag=True, help="Show what would be fixed without modifying files"
+)
+@click.pass_context
+def auto_fix(
+    ctx: click.Context,
+    files: Tuple[str, ...],
+    dry_run: bool,
+) -> None:
+    """Automatically fix detected errors in LaTeX files."""
+    config = load_config_from_context(ctx)
+    formatter = AdvancedLaTeXFormatter(config, ctx.obj.get("pattern_config"))
+    
+    for file_path in files:
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                original_content = f.read()
+            
+            fixed_content = formatter.auto_fix_all_issues(original_content)
+            
+            if original_content != fixed_content:
+                if dry_run:
+                    click.echo(f"Would apply fixes to {file_path}")
+                    # Show diff
+                    import difflib
+                    diff = difflib.unified_diff(
+                        original_content.splitlines(keepends=True),
+                        fixed_content.splitlines(keepends=True),
+                        fromfile=f"a/{file_path}",
+                        tofile=f"b/{file_path}",
+                        n=3,
+                    )
+                    click.echo("".join(diff))
+                else:
+                    with open(file_path, "w", encoding="utf-8") as f:
+                        f.write(fixed_content)
+                    click.echo(f"Applied auto-fixes to {file_path}")
+            else:
+                click.echo(f"No fixes needed for {file_path}")
+                
+        except Exception as e:
+            click.echo(f"Error processing {file_path}: {e}", err=True)
 
 
 if __name__ == "__main__":

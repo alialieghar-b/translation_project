@@ -294,6 +294,102 @@ class AdvancedLaTeXFormatter(LaTeXFormatter):
 
         return suggestions
 
+    # TDD: Auto-fix methods for error recovery
+    def auto_fix_undefined_commands(self, content: str) -> str:
+        """Automatically fix undefined commands."""
+        # Fix farsifontbold -> farsifont\bfseries
+        content = re.sub(
+            r'\\farsifontbold\{([^}]*)\}',
+            r'{\\farsifont\\bfseries \1}',
+            content
+        )
+        
+        # Fix other fontbold patterns
+        content = re.sub(
+            r'\\([a-zA-Z]+)fontbold\{([^}]*)\}',
+            r'{\\\\1font\\bfseries \2}',
+            content
+        )
+        
+        return content
+
+    def auto_fix_redundant_packages(self, content: str) -> str:
+        """Automatically fix redundant packages."""
+        # Comment out inputenc when fontspec is present
+        if re.search(r'\\usepackage.*\{fontspec\}', content):
+            content = re.sub(
+                r'(\\usepackage\[utf8\]\{inputenc\})',
+                r'% \1  % Commented out - redundant with fontspec',
+                content
+            )
+        
+        return content
+
+    def auto_fix_all_issues(self, content: str) -> str:
+        """Automatically fix all detected issues."""
+        # Apply all auto-fixes
+        content = self.auto_fix_undefined_commands(content)
+        content = self.auto_fix_redundant_packages(content)
+        
+        return content
+
+    def comprehensive_error_detection(self, content: str) -> List[Dict]:
+        """Perform comprehensive error detection."""
+        all_issues = []
+        
+        # Collect all types of issues
+        all_issues.extend(self.detect_undefined_commands(content))
+        all_issues.extend(self.detect_engine_compatibility_issues(content))
+        all_issues.extend(self.detect_redundant_packages(content))
+        all_issues.extend(self.detect_missing_packages(content))
+        all_issues.extend(self.validate_font_definitions(content))
+        
+        return all_issues
+
+    def generate_comprehensive_error_report(self, content: str) -> Dict:
+        """Generate comprehensive error report."""
+        all_issues = self.comprehensive_error_detection(content)
+        
+        # Categorize issues
+        report = {
+            'undefined_commands': [i for i in all_issues if i['type'] == 'undefined_command'],
+            'redundant_packages': [i for i in all_issues if i['type'] == 'redundant_package'],
+            'engine_compatibility': [i for i in all_issues if i['type'] == 'engine_compatibility'],
+            'missing_packages': [i for i in all_issues if i['type'] == 'missing_package'],
+            'font_issues': [i for i in all_issues if i['type'] == 'incomplete_font_definition'],
+            'suggestions': []
+        }
+        
+        # Add suggestions based on issues
+        for issue in all_issues:
+            if 'suggestion' in issue:
+                report['suggestions'].append(issue['suggestion'])
+        
+        return report
+
+    def classify_errors_by_severity(self, content: str) -> Dict:
+        """Classify errors by severity level."""
+        all_issues = self.comprehensive_error_detection(content)
+        
+        classified = {
+            'critical': [],
+            'warning': [],
+            'info': []
+        }
+        
+        for issue in all_issues:
+            if issue['type'] in ['undefined_command', 'missing_package']:
+                issue['severity'] = 'critical'
+                classified['critical'].append(issue)
+            elif issue['type'] in ['redundant_package', 'engine_compatibility']:
+                issue['severity'] = 'warning'
+                classified['warning'].append(issue)
+            else:
+                issue['severity'] = 'info'
+                classified['info'].append(issue)
+        
+        return classified
+
 
 def format_files_parallel(
     file_paths: List[Path],
