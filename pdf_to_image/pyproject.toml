@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf-to-image-converter"
+version = "1.0.0"
+description = "High-quality PDF to image converter with configurable output settings"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Mohammad Hossein Soltani", email = "contact@soltanegharb.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+    "Topic :: Office/Business",
+    "Topic :: Utilities",
+]
+keywords = ["pdf", "image", "conversion", "png", "jpeg", "tiff", "quality", "dpi"]
+requires-python = ">=3.7"
+dependencies = [
+    "pdf2image>=1.16.0",
+    "Pillow>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.991",
+]
+alternatives = [
+    "PyMuPDF>=1.20.0",
+    "Wand>=0.6.0",
+]
+
+[project.scripts]
+pdf2img = "pdf_converter:main"
+pdf-converter = "pdf_converter:main"
+
+[project.urls]
+Homepage = "https://github.com/soltanegharb/pdf-to-image-converter"
+"Bug Reports" = "https://github.com/soltanegharb/pdf-to-image-converter/issues"
+Source = "https://github.com/soltanegharb/pdf-to-image-converter"
+Documentation = "https://github.com/soltanegharb/pdf-to-image-converter/blob/main/README.md"
+
+[tool.setuptools]
+py-modules = ["pdf_converter"]
+
+[tool.black]
+line-length = 100
+target-version = ['py37']
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
