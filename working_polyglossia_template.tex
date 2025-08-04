@@ -1,0 +1,61 @@
+% Working Persian Template with xepersian
+% Fixed to use xepersian for proper Persian script rendering
+% Compile with: xelatex working_polyglossia_template.tex
+
+\documentclass[12pt,a4paper]{article}
+
+% Package loading order is important!
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{xepersian}
+
+% Document setup
+\geometry{a4paper, margin=1in}
+
+% Font setup using xepersian commands
+\settextfont{Vazirmatn}
+\setlatintextfont{Times New Roman}
+
+\begin{document}
+
+\title{\fa{قالب کار کرده برای اسناد فارسی}}
+\author{\fa{نویسنده}}
+\date{\today}
+\maketitle
+
+\section*{\fa{مقدمه}}
+
+\fa{این یک قالب کار کرده برای اسناد فارسی با استفاده از polyglossia است.}
+
+\section*{Mixed Language Example}
+
+\en{This is English text using custom command.}
+
+\fa{این متن فارسی با دستور سفارشی است.}
+
+Direct commands also work:
+- \textfarsi{متن مستقیم فارسی}
+- \textenglish{Direct English text}
+
+\section*{\fa{ریاضیات}}
+
+\fa{فرمول ریاضی:} $E = mc^2$
+
+\begin{equation}
+\int_{0}^{\infty} e^{-x} dx = 1
+\end{equation}
+
+\section*{\fa{فهرست}}
+
+\begin{itemize}
+\item \fa{مورد اول}
+\item \fa{مورد دوم}
+\item \en{English item}
+\end{itemize}
+
+\section*{\fa{نتیجه‌گیری}}
+
+\fa{این قالب بر اساس تست‌های مختلف و رفع خطاهای مختلف ساخته شده است.}
+
+\end{document}

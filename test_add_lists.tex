@@ -1,0 +1,38 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{Vazirmatn}
+
+% --- Safe custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Adding Lists}
+
+\en{English bulleted list:}
+\begin{itemize}
+\item \en{First item}
+\item \en{Second item}
+\item \fa{مورد فارسی}
+\end{itemize}
+
+\fa{فهرست شماره‌دار فارسی:}
+\begin{enumerate}
+\item \fa{مورد اول}
+\item \fa{مورد دوم}
+\item \en{English item}
+\end{enumerate}
+
+\end{document}

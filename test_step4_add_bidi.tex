@@ -1,0 +1,26 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{bidi}
+
+% --- Document Setup ---
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{DejaVu Sans}
+\newfontfamily\englishfont{DejaVu Sans}
+
+\begin{document}
+
+\section*{Test Step 4: Adding bidi package}
+
+This is English text.
+
+\textfarsi{این متن فارسی است و باید از راست به چپ نمایش داده شود.}
+
+English again.
+
+\textfarsi{متن فارسی دیگر.}
+
+\end{document}

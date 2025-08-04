@@ -1,0 +1,269 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+% Page setup
+\geometry{a4paper, margin=1in}
+
+% Configure hyperref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdfstartview=FitH
+}
+
+% Configure listings
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    breakindent=20pt,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+% Custom clickable code box
+\newtcolorbox{clickablecode}[2]{
+    enhanced,
+    colback=gray!10,
+    colframe=blue!50,
+    title=#1,
+    fonttitle=\bfseries\small,
+    attach boxed title to top left={yshift=-2mm, xshift=2mm},
+    boxed title style={colback=blue!20},
+    overlay={
+        \node[anchor=north east, text=blue] at (frame.north east) 
+        {\small \href{mailto:?subject=Command&body=#2}{📋 Copy}};
+    }
+}
+
+\newtcolorbox{infobox}{
+    colback=blue!5,
+    colframe=blue!40,
+    title=Information,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{successbox}{
+    colback=green!5,
+    colframe=green!40,
+    title=Success,
+    fonttitle=\bfseries
+}
+
+\title{Oh My Zsh Installation Guide\\
+\large Clickable PDF with Copy Links}
+\author{Interactive PDF Solution}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{How to Use This Guide}
+
+\begin{infobox}
+\textbf{Clickable Copy Instructions:}
+\begin{enumerate}
+    \item Click the "Copy" link in each code block
+    \item This will open your email client with the command
+    \item Copy the command from the email body
+    \item Paste into your terminal
+\end{enumerate}
+
+\textbf{Alternative: Manual Copy}
+\begin{itemize}
+    \item Select the text in the code block
+    \item Copy with Ctrl+C (Cmd+C on Mac)
+    \item Note: Copy the single-line version shown below each block
+\end{itemize}
+\end{infobox}
+
+\section{Step 1: Install Zsh}
+
+\subsection{Ubuntu/Debian Systems}
+
+\begin{clickablecode}{Update Package List}{sudo apt update}
+\begin{lstlisting}
+sudo apt update
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo apt update}
+\end{clickablecode}
+
+\begin{clickablecode}{Install Zsh}{sudo apt install zsh}
+\begin{lstlisting}
+sudo apt install zsh
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo apt install zsh}
+\end{clickablecode}
+
+\subsection{CentOS/RHEL/Fedora Systems}
+
+\begin{clickablecode}{Install Zsh (CentOS/RHEL)}{sudo yum install zsh}
+\begin{lstlisting}
+sudo yum install zsh
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo yum install zsh}
+\end{clickablecode}
+
+\begin{clickablecode}{Install Zsh (Fedora)}{sudo dnf install zsh}
+\begin{lstlisting}
+sudo dnf install zsh
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo dnf install zsh}
+\end{clickablecode}
+
+\subsection{macOS Systems}
+
+\begin{clickablecode}{Install Zsh (Homebrew)}{brew install zsh}
+\begin{lstlisting}
+brew install zsh
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{brew install zsh}
+\end{clickablecode}
+
+\section{Step 2: Install Oh My Zsh}
+
+\subsection{Method 1: Using curl}
+
+\begin{clickablecode}{Install Oh My Zsh (curl)}{sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"}
+\begin{lstlisting}
+sh -c "$(curl -fsSL 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sh -c "\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"}
+\end{clickablecode}
+
+\subsection{Method 2: Using wget}
+
+\begin{clickablecode}{Install Oh My Zsh (wget)}{sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"}
+\begin{lstlisting}
+sh -c "$(wget 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sh -c "\$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"}
+\end{clickablecode}
+
+\section{Step 3: Change Default Shell}
+
+\subsection{Standard Systems}
+
+\begin{clickablecode}{Change Shell (Standard)}{chsh -s $(which zsh)}
+\begin{lstlisting}
+chsh -s $(which zsh)
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{chsh -s \$(which zsh)}
+\end{clickablecode}
+
+\subsection{GitHub Codespaces}
+
+\begin{clickablecode}{Change Shell (Codespaces Method 1)}{sudo chsh -s $(which zsh) $(whoami)}
+\begin{lstlisting}
+sudo chsh -s $(which zsh) $(whoami)
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo chsh -s \$(which zsh) \$(whoami)}
+\end{clickablecode}
+
+\begin{clickablecode}{Change Shell (Codespaces Method 2)}{sudo chsh "$(id -un)" --shell "$(which zsh)"}
+\begin{lstlisting}
+sudo chsh "$(id -un)" --shell "$(which zsh)"
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{sudo chsh "\$(id -un)" --shell "\$(which zsh)"}
+\end{clickablecode}
+
+\section{Step 4: Install Popular Plugins}
+
+\subsection{Zsh Autosuggestions}
+
+\begin{clickablecode}{Install Autosuggestions Plugin}{git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions}
+\begin{lstlisting}
+git clone https://github.com/zsh-users/zsh-autosuggestions 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{git clone https://github.com/zsh-users/zsh-autosuggestions \$\{ZSH\_CUSTOM:-\textasciitilde/.oh-my-zsh/custom\}/plugins/zsh-autosuggestions}
+\end{clickablecode}
+
+\subsection{Zsh Syntax Highlighting}
+
+\begin{clickablecode}{Install Syntax Highlighting Plugin}{git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting}
+\begin{lstlisting}
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \$\{ZSH\_CUSTOM:-\textasciitilde/.oh-my-zsh/custom\}/plugins/zsh-syntax-highlighting}
+\end{clickablecode}
+
+\section{Step 5: Apply Changes}
+
+\begin{clickablecode}{Reload Configuration}{source ~/.zshrc}
+\begin{lstlisting}
+source ~/.zshrc
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{source \textasciitilde/.zshrc}
+\end{clickablecode}
+
+\section{Verification Commands}
+
+\begin{clickablecode}{Check Current Shell}{echo $SHELL}
+\begin{lstlisting}
+echo $SHELL
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{echo \$SHELL}
+\end{clickablecode}
+
+\begin{clickablecode}{Check User Shell Setting}{grep $(whoami) /etc/passwd}
+\begin{lstlisting}
+grep $(whoami) /etc/passwd
+\end{lstlisting}
+\textbf{Single-line command:} \texttt{grep \$(whoami) /etc/passwd}
+\end{clickablecode}
+
+\section{Success!}
+
+\begin{successbox}
+You have successfully:
+\begin{itemize}
+    \item Installed Zsh shell
+    \item Installed Oh My Zsh framework  
+    \item Changed default shell (including Codespaces methods)
+    \item Configured themes and plugins
+    \item Applied the configuration
+\end{itemize}
+
+\textbf{Next Steps:}
+\begin{itemize}
+    \item Explore themes: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Themes}
+    \item Discover plugins: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins}
+    \item Customize your prompt further
+\end{itemize}
+\end{successbox}
+
+\section{PDF Copy Solution Summary}
+
+\begin{infobox}
+\textbf{How This Works:}
+\begin{itemize}
+    \item \textbf{Visual Display}: Clean, wrapped text for readability
+    \item \textbf{Copy Method}: Click links open email with command
+    \item \textbf{Single-line Commands}: Shown below each code block
+    \item \textbf{Manual Copy}: Select and copy the single-line version
+\end{itemize}
+
+\textbf{Why This Approach:}
+\begin{itemize}
+    \item Works with all PDF viewers
+    \item No JavaScript limitations
+    \item Clear separation of display vs copy content
+    \item Fallback manual copy option
+\end{itemize}
+
+\textbf{Best Experience:}
+For full clickable copy functionality, use the HTML version of this guide.
+\end{infobox}
+
+\end{document}

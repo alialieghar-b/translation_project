@@ -1,0 +1,31 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bidi}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{Vazirmatn}
+
+% --- Safe custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Explicit Bidi Package}
+
+\en{Testing explicit bidi package loading after polyglossia.}
+
+\fa{تست بارگذاری صریح بسته bidi پس از polyglossia.}
+
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xepersian} % Replaced polyglossia
+\usepackage{geometry}
+\usepackage{amsmath}
+\settextfont{Vazirmatn} % Replaced newfontfamily\arabicfont
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+% Set a Persian/Arabic font that is installed on your system.
+% DejaVu Sans works well as a system fallback.
+\newfontfamily\arabicfont{DejaVu Sans}
+
+\begin{document}
+
+\section*{Test: Adding AMS Math}
+
+English text with math: $E = mc^2$
+
+\textfarsi{متن فارسی با ریاضی:} $\int_0^\infty e^{-x} dx = 1$
+\textfarsi{این یک معادله است:}
+\begin{equation}
+\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+\end{equation}
+
+\end{document}

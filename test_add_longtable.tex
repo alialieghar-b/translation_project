@@ -1,0 +1,56 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bidi}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{Vazirmatn}
+
+% --- Safe custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Adding Longtable Package}
+
+\en{Long table with mixed content:}
+
+\begin{longtable}{lcc}
+\caption{\fa{جدول طولانی نمونه}} \\
+\toprule
+\en{Item} & \fa{فارسی} & \en{English} \\
+\midrule
+\endfirsthead
+
+\multicolumn{3}{c}{\fa{ادامه جدول}} \\
+\toprule
+\en{Item} & \fa{فارسی} & \en{English} \\
+\midrule
+\endhead
+
+\bottomrule
+\endfoot
+
+1 & \fa{اول} & \en{First} \\
+2 & \fa{دوم} & \en{Second} \\
+3 & \fa{سوم} & \en{Third} \\
+4 & \fa{چهارم} & \en{Fourth} \\
+5 & \fa{پنجم} & \en{Fifth} \\
+
+\end{longtable}
+
+\end{document}

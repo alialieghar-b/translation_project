@@ -1,0 +1,213 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{qrcode}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{tabularx}
+
+% Page setup
+\geometry{a4paper, margin=1in}
+
+% Configure listings for visual display
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    breakindent=20pt,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+% Simple info box
+\newtcolorbox{infobox}{
+    colback=blue!5,
+    colframe=blue!40,
+    title=Information,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{successbox}{
+    colback=green!5,
+    colframe=green!40,
+    title=Success,
+    fonttitle=\bfseries
+}
+
+% Command for code with QR side by side
+\newcommand{\codeqr}[2]{%
+    \begin{table}[h]
+    \begin{tabularx}{\textwidth}{|X|c|}
+    \hline
+    \textbf{#1} & \textbf{Scan to Copy} \\
+    \hline
+    \begin{lstlisting}
+#2
+    \end{lstlisting}
+    & 
+    \qrcode[height=2.5cm]{#2} \\
+    \hline
+    \end{tabularx}
+    \end{table}
+}
+
+\title{Oh My Zsh Installation Guide\\
+\large PDF with QR Code Copy Solution}
+\author{Best PDF Interactive Solution}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{How to Use This Guide}
+
+\begin{infobox}
+\textbf{QR Code Instructions:}
+\begin{enumerate}
+    \item Use your phone's camera or QR scanner app
+    \item Scan the QR code next to any command
+    \item The full command will appear on your phone
+    \item Copy from your phone and paste into terminal
+\end{enumerate}
+
+\textbf{Why QR codes work best for PDF:}
+\begin{itemize}
+    \item Works with ANY PDF viewer
+    \item No JavaScript required
+    \item Mobile-friendly
+    \item Always copies the correct single-line command
+\end{itemize}
+\end{infobox}
+
+\section{Step 1: Install Zsh}
+
+\subsection{Ubuntu/Debian Systems}
+
+\codeqr{Update Package List}{sudo apt update}
+
+\codeqr{Install Zsh}{sudo apt install zsh}
+
+\subsection{CentOS/RHEL/Fedora Systems}
+
+\codeqr{Install Zsh (CentOS/RHEL)}{sudo yum install zsh}
+
+\codeqr{Install Zsh (Fedora)}{sudo dnf install zsh}
+
+\subsection{macOS Systems}
+
+\codeqr{Install Zsh (Homebrew)}{brew install zsh}
+
+\subsection{Verify Installation}
+
+\codeqr{Check Zsh Version}{zsh --version}
+
+\codeqr{Find Zsh Location}{which zsh}
+
+\section{Step 2: Install Oh My Zsh}
+
+\subsection{Method 1: Using curl}
+
+\codeqr{Install Oh My Zsh (curl)}{sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"}
+
+\subsection{Method 2: Using wget}
+
+\codeqr{Install Oh My Zsh (wget)}{sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"}
+
+\subsection{Method 3: Manual Installation}
+
+\codeqr{Clone Oh My Zsh Repository}{git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh}
+
+\codeqr{Copy Template Configuration}{cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc}
+
+\section{Step 3: Change Default Shell}
+
+\subsection{Standard Systems}
+
+\codeqr{Change Shell (Standard)}{chsh -s $(which zsh)}
+
+\subsection{GitHub Codespaces}
+
+\codeqr{Change Shell (Codespaces Method 1)}{sudo chsh -s $(which zsh) $(whoami)}
+
+\codeqr{Change Shell (Codespaces Method 2)}{sudo chsh "$(id -un)" --shell "$(which zsh)"}
+
+\section{Step 4: Install Popular Plugins}
+
+\subsection{Zsh Autosuggestions}
+
+\codeqr{Install Autosuggestions Plugin}{git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions}
+
+\subsection{Zsh Syntax Highlighting}
+
+\codeqr{Install Syntax Highlighting Plugin}{git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting}
+
+\subsection{Powerlevel10k Theme}
+
+\codeqr{Install Powerlevel10k Theme}{git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k}
+
+\section{Step 5: Apply Changes}
+
+\codeqr{Reload Configuration}{source ~/.zshrc}
+
+\section{Verification Commands}
+
+\codeqr{Check Current Shell}{echo $SHELL}
+
+\codeqr{Check User Shell Setting}{grep $(whoami) /etc/passwd}
+
+\section{Troubleshooting}
+
+\codeqr{Fix Permissions (if needed)}{sudo chsh -s $(which zsh) $USER}
+
+\codeqr{Check Plugin Directory}{ls ~/.oh-my-zsh/custom/plugins/}
+
+\section{Success!}
+
+\begin{successbox}
+You have successfully:
+\begin{itemize}
+    \item Installed Zsh shell
+    \item Installed Oh My Zsh framework  
+    \item Changed default shell (including Codespaces methods)
+    \item Configured themes and plugins
+    \item Applied the configuration
+\end{itemize}
+
+\textbf{Next Steps:}
+\begin{itemize}
+    \item Explore themes: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Themes}
+    \item Discover plugins: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins}
+    \item Customize your prompt further
+\end{itemize}
+\end{successbox}
+
+\section{Why QR Codes Are the Best PDF Solution}
+
+\begin{infobox}
+\textbf{QR Code Advantages:}
+\begin{itemize}
+    \item Works with ANY PDF viewer (Adobe, Chrome, mobile apps)
+    \item No JavaScript or security restrictions
+    \item Mobile-friendly - use phone camera
+    \item Always copies the correct single-line command
+    \item Works offline once PDF is downloaded
+    \item Cross-platform compatibility
+    \item Bridges visual display and functional copying
+\end{itemize}
+
+\textbf{Perfect User Experience:}
+\begin{enumerate}
+    \item Read the guide on computer/tablet
+    \item Scan QR code with phone
+    \item Copy command from phone
+    \item Paste into terminal on computer
+\end{enumerate}
+
+This is the best solution for PDF documents that need both visual appeal and copy functionality!
+\end{infobox}
+
+\end{document}

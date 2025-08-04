@@ -1,0 +1,134 @@
+% Test Vazirmatn fonts with LaTeX
+% Make sure fonts are installed on your system first
+% Compile with: xelatex test_vazirmatn_fonts.tex
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{xepersian}
+
+\geometry{margin=2cm}
+
+% Test Vazirmatn font - change this line to test different weights
+\settextfont{Vazirmatn}              % Main font
+% \settextfont{Vazirmatn-Regular}    % Explicit regular
+% \settextfont{Vazirmatn-Light}      % Light weight
+% \settextfont{Vazirmatn-Medium}     % Medium weight
+% \settextfont{Vazirmatn-Bold}       % Bold weight
+
+\setdigitfont{Vazirmatn}
+\setlatintextfont{Times New Roman}
+
+\title{تست فونت وزیرمتن (Vazirmatn)}
+\author{تست فونت}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{معرفی فونت}
+\textcolor{blue}{فونت فعلی: وزیرمتن (Vazirmatn)}
+
+اگر این متن به درستی نمایش داده شود، فونت وزیرمتن با موفقیت نصب و تنظیم شده است.
+
+\section{تست وزن‌های مختلف فونت}
+
+\subsection{متن عادی}
+این متن با وزن عادی فونت وزیرمتن نوشته شده است.
+
+\subsection{متن ضخیم}
+\textbf{این متن با وزن ضخیم فونت وزیرمتن نوشته شده است.}
+
+\subsection{متن کج}
+\textit{این متن با حالت کج فونت وزیرمتن نوشته شده است.}
+
+\subsection{ترکیب سبک‌ها}
+\textbf{\textit{این متن هم ضخیم و هم کج است.}}
+
+\section{تست حروف الفبا}
+الف، ب، پ، ت، ث، ج، چ، ح، خ، د، ذ، ر، ز، ژ، س، ش، ص، ض، ط، ظ، ع، غ، ف، ق، ک، گ، ل، م، ن، و، ه، ی
+
+\section{تست اعداد}
+
+\subsection{اعداد فارسی}
+۰، ۱، ۲، ۳، ۴، ۵، ۶، ۷، ۸، ۹
+
+تاریخ امروز: \today
+
+\subsection{اعداد انگلیسی}
+\lr{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+\section{علائم نگارشی}
+نقطه (.)، ویرگول (،)، نقطه‌ویرگول (؛)، دونقطه (:)، علامت سؤال (؟)، علامت تعجب (!)
+
+نقل‌قول: «این یک نقل‌قول نمونه است.»
+
+\section{متن ترکیبی فارسی-انگلیسی}
+این متن شامل کلمات انگلیسی مثل \lr{LaTeX}، \lr{XeLaTeX}، \lr{Vazirmatn}، \lr{GitHub} و \lr{Persian Typography} نیز می‌باشد.
+
+\section{فهرست‌ها}
+
+\subsection{فهرست نقطه‌ای}
+\begin{itemize}
+\item مورد اول
+\item مورد دوم
+\item مورد سوم
+    \begin{itemize}
+    \item زیرمورد اول
+    \item زیرمورد دوم
+    \end{itemize}
+\item مورد چهارم
+\end{itemize}
+
+\subsection{فهرست شماره‌دار}
+\begin{enumerate}
+\item گام اول: دانلود فونت
+\item گام دوم: نصب فونت
+\item گام سوم: تنظیم در \lr{LaTeX}
+\item گام چهارم: تست و بررسی
+\end{enumerate}
+
+\section{نمونه متن طولانی}
+لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می‌باشد.
+
+\begin{quote}
+«این یک نقل‌قول بلند است که برای نمایش کیفیت فونت در متن‌های طولانی‌تر و بررسی فاصله‌گذاری بین کلمات و خطوط استفاده می‌شود. فونت وزیرمتن باید این متن را به صورت زیبا و خوانا نمایش دهد.»
+\end{quote}
+
+\section{اندازه‌های مختلف فونت}
+
+{\tiny متن بسیار کوچک}
+
+{\scriptsize متن کوچک}
+
+{\footnotesize متن یادداشت}
+
+{\small متن کوچک}
+
+{\normalsize متن عادی}
+
+{\large متن بزرگ}
+
+{\Large متن بزرگ‌تر}
+
+{\LARGE متن خیلی بزرگ}
+
+{\huge متن عظیم}
+
+{\Huge متن بسیار عظیم}
+
+\section{نتیجه‌گیری}
+\textcolor{green}{\textbf{اگر تمام بخش‌های بالا به درستی نمایش داده شدند، فونت وزیرمتن با موفقیت نصب شده و آماده استفاده در پروژه‌های \lr{LaTeX} شماست!}}
+
+\vspace{1cm}
+
+\textcolor{red}{نکته مهم: اگر فونت به درستی نمایش داده نشد، مطمئن شوید که:}
+\begin{enumerate}
+\item فونت‌های \lr{.ttf} در سیستم نصب شده‌اند
+\item از \lr{XeLaTeX} برای کامپایل استفاده می‌کنید (نه \lr{pdfLaTeX})
+\item نام فونت در کد درست نوشته شده است
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+
+% --- Document Setup ---
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\farsifont[Script=Arabic]{Vazirmatn}
+\newfontfamily\englishfont{Times New Roman}
+
+\begin{document}
+
+\section*{Test 1: Basic Text}
+
+This is English text.
+
+\textfarsi{این متن فارسی است.}
+
+\end{document}

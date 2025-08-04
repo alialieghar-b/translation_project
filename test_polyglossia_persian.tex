@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{bidi}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+% Note: Please ensure you have a suitable Persian font installed, like "XB Niloofar" or "B Nazanin".
+\newfontfamily\farsifont[Script=Arabic, Scale=1.1]{XB Niloofar}
+\newfontfamily\englishfont{Times New Roman}
+
+% --- Custom Commands ---
+\newcommand{\persian}[1]{\textfarsi{#1}}
+\newcommand{\eng}[1]{\textenglish{#1}}
+\renewcommand{\thefootnote}{\arabic{footnote}} % Standard footnote numbering
+
+% ====================================================================
+%                          DOCUMENT START
+% ====================================================================
+\begin{document}
+
+\begin{center}
+    \huge\bfseries\persian{ترجمه مقاله علمی: صفحه اول}
+\end{center}
+\vspace{1cm}
+
+% --------------------------------------------------------------------
+%                           ARTICLE TITLE
+% --------------------------------------------------------------------
+\section*{\persian{عنوان مقاله}}
+
+\begin{quote}
+    \eng{\textbf{Original Title:} New materials for lithium-sulfur batteries: challenges and future directions}
+\end{quote}
+
+\persian{\textbf{ترجمه عنوان:} مواد جدید برای باتری‌های لیتیوم-گوگرد: چالش‌ها و چشم‌اندازهای آینده}
+\vspace{5mm}
+\persian{\textbf{نویسنده:} مونتری ساوانگفروک (\eng{Montree Sawangphruk})}
+\hrule
+\vspace{5mm}
+
+% --------------------------------------------------------------------
+%                               ABSTRACT
+% --------------------------------------------------------------------
+\section*{\persian{چکیده}}
+
+\begin{quote}
+    \eng{\textbf{Original Abstract:} This review explores recent advances in lithium-sulfur (Li-S) batteries, promising next-generation energy storage devices known for their exceptionally high theoretical energy density ($\sim$2500 Wh kg⁻¹), cost-effectiveness, and environmental advantages.}
+\end{quote}
+
+\persian{
+\textbf{ترجمه چکیده:} این مقاله مروری، پیشرفت‌های اخیر در باتری‌های لیتیوم-گوگرد (\eng{Li-S}) را بررسی می‌کند؛ دستگاه‌های ذخیره‌سازی انرژی نسل بعدی که به دلیل چگالی انرژی نظری فوق‌العاده بالا (حدود ۲۵۰۰ وات‌ساعت بر کیلوگرم)، مقرون‌به‌صرفه بودن و مزایای زیست‌محیطی، آینده‌ای درخشان دارند.
+}
+
+\section*{\persian{تست فونت‌ها}}
+
+\persian{این متن برای تست فونت XB Niloofar نوشته شده است.}
+
+\eng{This text is for testing English font (Times New Roman).}
+
+\persian{اعداد فارسی: ۱۲۳۴۵۶۷۸۹۰}
+
+\eng{English numbers: 1234567890}
+
+\end{document}
+% ====================================================================
+%                            DOCUMENT END
+% ====================================================================

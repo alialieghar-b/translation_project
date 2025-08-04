@@ -1,0 +1,47 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bidi}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{float}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{Vazirmatn}
+
+% --- Safe custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Adding Float Package}
+
+\en{Table with H placement specifier:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\fa{عنصر} & \fa{مقدار} \\
+\midrule
+\fa{اول} & 1 \\
+\fa{دوم} & 2 \\
+\bottomrule
+\end{tabular}
+\caption{\fa{جدول با موقعیت ثابت}}
+\end{table}
+
+\fa{متن بعد از جدول.}
+
+\end{document}

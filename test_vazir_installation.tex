@@ -1,0 +1,35 @@
+% Quick test to verify Vazir font installation
+% Compile with: xelatex test_vazir_installation.tex
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xepersian}
+
+% Test Vazir font
+\settextfont{Vazir}
+\setdigitfont{Vazir}
+
+\title{تست نصب فونت وزیر}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{تست فونت وزیر}
+
+اگر این متن به درستی نمایش داده شود، فونت وزیر با موفقیت نصب شده است.
+
+\textbf{متن ضخیم} و \textit{متن کج} نیز باید درست نمایش داده شوند.
+
+اعداد فارسی: ۱۲۳۴۵۶۷۸۹۰
+
+اعداد انگلیسی: \lr{1234567890}
+
+\section{علائم نگارشی}
+نقطه (.)، ویرگول (،)، نقطه‌ویرگول (؛)، دونقطه (:)
+
+\section{نتیجه}
+اگر همه چیز درست نمایش داده شد، فونت وزیر آماده استفاده است!
+
+\end{document}

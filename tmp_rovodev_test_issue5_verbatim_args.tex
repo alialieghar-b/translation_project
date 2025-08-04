@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fontspec}
+
+% Test Issue 5: Verbatim in command arguments
+\newcommand{\testverbatim}[1]{%
+    \textbf{Code:}
+    \begin{verbatim}
+    #1
+    \end{verbatim}
+}
+
+\begin{document}
+\title{Test Issue 5: Verbatim in Arguments}
+\maketitle
+
+Testing verbatim in command:
+\testverbatim{sudo apt update}
+
+\end{document}

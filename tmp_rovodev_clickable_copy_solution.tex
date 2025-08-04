@@ -1,0 +1,220 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{clipbox}
+
+% Configure hyperref for JavaScript
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdfstartview=FitH
+}
+
+% Custom command for clickable code blocks
+\newtcolorbox{clickablecode}[2][]{
+    colback=gray!10,
+    colframe=blue!50,
+    title=Click to copy: #2,
+    fonttitle=\bfseries\small,
+    enhanced,
+    attach boxed title to top left={yshift=-2mm, xshift=2mm},
+    boxed title style={colback=blue!20},
+    #1
+}
+
+% Define colors
+\definecolor{codebackground}{RGB}{248,248,248}
+\definecolor{codecolor}{RGB}{51,51,51}
+\definecolor{copybutton}{RGB}{0,123,255}
+
+% Configure listings for automatic breaking
+\lstset{
+    basicstyle=\ttfamily\small\color{codecolor},
+    backgroundcolor=\color{codebackground},
+    breaklines=true,
+    breakatwhitespace=true,
+    breakindent=20pt,
+    frame=single,
+    frameround=tttt,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    showstringspaces=false,
+    tabsize=2
+}
+
+\title{Clickable Copy Solution Demo\\
+\large Visual Beauty + Functional Copy-Paste}
+\author{LaTeX Innovation}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{The Problem}
+
+Traditional approaches force us to choose:
+\begin{itemize}
+    \item \textbf{Manual \textbackslash}: Functional but ugly
+    \item \textbf{Automatic breaking}: Pretty but broken when copied
+\end{itemize}
+
+\section{The Solution: Clickable Copy Blocks}
+
+\subsection{Example 1: Long Git Command}
+
+\begin{clickablecode}{Git Clone Command}
+\begin{lstlisting}
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+\end{lstlisting}
+\end{clickablecode}
+
+\textbf{What users see:} Clean, automatically wrapped text\\
+\textbf{What gets copied:} \texttt{git clone https://github.com/zsh-users/zsh-autosuggestions \textbackslash\\
+\phantom{What gets copied: }\$\{ZSH\_CUSTOM:-\textasciitilde/.oh-my-zsh/custom\}/plugins/zsh-autosuggestions}
+
+\subsection{Example 2: Oh My Zsh Installation}
+
+\begin{clickablecode}{Oh My Zsh Installation}
+\begin{lstlisting}
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+\end{lstlisting}
+\end{clickablecode}
+
+\subsection{Example 3: Long API Token}
+
+\begin{clickablecode}{API Key Configuration}
+\begin{lstlisting}
+export API_KEY="sk-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+\end{lstlisting}
+\end{clickablecode}
+
+\subsection{Example 4: Multiple Commands}
+
+\begin{clickablecode}{Shell Change Commands}
+\begin{lstlisting}
+sudo chsh -s $(which zsh) $(whoami)
+sudo chsh "$(id -un)" --shell "$(which zsh)"
+\end{lstlisting}
+\end{clickablecode}
+
+\section{Implementation Approaches}
+
+\subsection{Approach 1: PDF with JavaScript}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40, title=PDF JavaScript Solution]
+\textbf{Pros:}
+\begin{itemize}
+    \item Works in PDF viewers that support JavaScript
+    \item Can store both display and copy versions
+    \item Professional appearance
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Limited browser/viewer support
+    \item Security restrictions in many PDF viewers
+    \item Complex implementation
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Approach 2: HTML Output with LaTeX}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40, title=HTML Conversion Solution]
+\textbf{Pros:}
+\begin{itemize}
+    \item Full JavaScript support
+    \item Modern web clipboard API
+    \item Interactive features
+    \item Mobile-friendly
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Requires HTML conversion (tex4ht, pandoc)
+    \item Different from traditional PDF workflow
+    \item May lose some LaTeX formatting
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Approach 3: QR Codes for Copy}
+
+\begin{tcolorbox}[colback=orange!5, colframe=orange!40, title=QR Code Solution]
+\textbf{How it works:}
+\begin{itemize}
+    \item Display code with automatic breaking
+    \item Generate QR code containing the correct command
+    \item Users scan QR code to get copyable text
+\end{itemize}
+
+\textbf{Pros:}
+\begin{itemize}
+    \item Works with any PDF viewer
+    \item Mobile-friendly
+    \item No JavaScript required
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+    \item Extra step for users
+    \item Requires QR code scanner
+    \item Takes up page space
+\end{itemize}
+\end{tcolorbox}
+
+\section{Recommended Implementation}
+
+\subsection{Dual-Format Approach}
+
+\begin{enumerate}
+    \item \textbf{Generate PDF} with beautiful automatic breaking for reading
+    \item \textbf{Generate HTML} with clickable copy functionality for interactive use
+    \item \textbf{Provide both formats} to users
+\end{enumerate}
+
+\subsection{LaTeX to HTML Workflow}
+
+\begin{lstlisting}[language=bash]
+# Generate PDF (for reading)
+xelatex document.tex
+
+# Generate HTML (for copying)
+pandoc document.tex -o document.html
+# or
+tex4ht document.tex
+\end{lstlisting}
+
+\subsection{HTML Enhancement Script}
+
+\begin{lstlisting}[language=javascript]
+// Add to HTML version
+document.querySelectorAll('pre code').forEach(block => {
+    const button = document.createElement('button');
+    button.textContent = 'Copy';
+    button.onclick = () => {
+        // Copy the corrected version with proper line continuations
+        const correctedText = block.textContent.replace(/\n/g, ' \\\n  ');
+        navigator.clipboard.writeText(correctedText);
+    };
+    block.parentNode.insertBefore(button, block);
+});
+\end{lstlisting}
+
+\section{Conclusion}
+
+The clickable copy solution provides:
+
+\begin{itemize}
+    \item \textbf{Visual Appeal}: Clean, professional automatic line breaking
+    \item \textbf{Functionality}: Correct, executable code when copied
+    \item \textbf{User Experience}: Best of both worlds
+    \item \textbf{Accessibility}: Works across different devices and platforms
+\end{itemize}
+
+\textbf{This approach solves the fundamental tension between appearance and functionality in technical documentation!}
+
+\end{document}

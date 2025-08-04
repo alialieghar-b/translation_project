@@ -1,0 +1,28 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{DejaVu Sans}
+
+% --- Two custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Two Custom Commands}
+
+\en{English text using custom command.}
+
+\fa{متن فارسی با دستور سفارشی.}
+
+\end{document}

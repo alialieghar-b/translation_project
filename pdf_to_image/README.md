@@ -11,7 +11,7 @@ A high-quality Python utility for converting PDF files to images with configurab
 - **Robust Error Handling**: Comprehensive validation and logging
 - **Command-Line Interface**: Easy-to-use CLI with extensive options
 - **Modern Python Packaging**: pyproject.toml configuration
-- **Comprehensive Testing**: 9 unit tests with 100% pass rate
+- **Comprehensive Testing**: 9 unit tests covering all functionality
 - **Development Tools**: Makefile, validation scripts, sample PDF generator
 
 ## Installation
@@ -41,6 +41,10 @@ pip install pdf-to-image-converter
 
 # Or install from source
 pip install .
+
+# After installation, you can use either command:
+pdf2img --help
+pdf-converter --help
 ```
 
 #### For Developers:
@@ -66,24 +70,37 @@ make format        # Format code with black
 ```bash
 # Convert single PDF
 python pdf_converter.py input.pdf --output-dir ./images
+# Or use the installed commands (after pip install)
+pdf2img input.pdf --output-dir ./images
+pdf-converter input.pdf --output-dir ./images
 
 # Convert with high quality
 python pdf_converter.py input.pdf --preset high
+pdf2img input.pdf --preset high
+pdf-converter input.pdf --preset high
 
 # Convert entire directory
 python pdf_converter.py --input-dir ./pdfs --output-dir ./images
+pdf2img --input-dir ./pdfs --output-dir ./images
+pdf-converter --input-dir ./pdfs --output-dir ./images
 ```
 
 ### Advanced Options
 ```bash
 # Custom DPI and format
 python pdf_converter.py input.pdf --dpi 600 --format TIFF
+pdf2img input.pdf --dpi 600 --format TIFF
+pdf-converter input.pdf --dpi 600 --format TIFF
 
 # With custom filename prefix
 python pdf_converter.py input.pdf --prefix document --output-dir ./output
+pdf2img input.pdf --prefix document --output-dir ./output
+pdf-converter input.pdf --prefix document --output-dir ./output
 
 # Parallel processing
 python pdf_converter.py input.pdf --threads 4 --verbose
+pdf2img input.pdf --threads 4 --verbose
+pdf-converter input.pdf --threads 4 --verbose
 ```
 
 ### Quality Presets
@@ -135,8 +152,7 @@ pdf-to-image-converter/
     ├── LIVE_TEST_RESULTS.md      # Real PDF testing results
     ├── DEPLOYMENT.md             # Production deployment guide
     ├── TEST_RESULTS.md           # Unit test documentation
-    ├── GITHUB_SETUP.md           # Publishing guide
-    ├── project_status.md         # Development status (COMPLETE)
+    ├── project_status.md         # Development status and completion
     ├── library_comparison.md     # Library research results
     └── quality_baseline.md       # Quality configuration docs
 ```
@@ -151,33 +167,41 @@ python test_converter.py
 # Run comprehensive validation
 python fix_and_test.py
 
-# Create sample PDF for testing
+# Create sample PDF for testing (requires reportlab)
 python create_sample_pdf.py
 
 # Use Makefile for automated testing
 make test          # Unit tests only
-make test-full     # Full test with sample PDF
+make test-full     # Full test with available PDF files
+make sample-pdf    # Create sample PDF (if reportlab installed)
 ```
 
-### Development Status
-- ✅ **Sprint 0**: Foundation & Discovery (Complete)
-  - ✅ Library research completed
-  - ✅ Quality baseline established
-  - ✅ PoC script implemented
-- ✅ **Sprint 1**: Core Implementation (Complete)
-  - ✅ Full CLI interface with presets
-  - ✅ Multi-format support and batch processing
-  - ✅ Error handling and logging system
-- ✅ **Sprint 2**: Quality & Testing (Complete)
-  - ✅ Comprehensive test suite (9 unit tests)
-  - ✅ Input validation and error handling
-  - ✅ Live testing with real PDF files
-- ✅ **Sprint 3**: Production Readiness (Complete)
-  - ✅ Modern Python packaging (pyproject.toml)
-  - ✅ Development automation (Makefile)
-  - ✅ Comprehensive documentation
+### Development Progress
+The project has been developed through several phases:
 
-**Status: 🎉 PRODUCTION READY - All sprints completed successfully!**
+**Foundation & Research**
+- Evaluated different PDF processing libraries (pdf2image, PyMuPDF, Wand)
+- Established quality standards and DPI requirements
+- Built initial proof of concept
+
+**Core Implementation** 
+- Developed the main PDFConverter class with full functionality
+- Created command-line interface with quality presets
+- Added support for multiple output formats and batch processing
+- Implemented comprehensive error handling and logging
+
+**Testing & Quality Assurance**
+- Built comprehensive test suite with 9 unit tests
+- Added input validation for DPI ranges and parameters
+- Tested with real PDF files to verify performance
+- Documented all functionality and edge cases
+
+**Production Readiness**
+- Added modern Python packaging with pyproject.toml
+- Created development automation tools (Makefile)
+- Wrote comprehensive documentation and guides
+
+The converter is now stable and ready for production use.
 
 ## Author
 

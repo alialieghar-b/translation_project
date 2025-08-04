@@ -30,9 +30,10 @@ setup(
             "pytest>=7.0.0",
             "black>=22.0.0",
             "flake8>=4.0.0",
+            "mypy>=0.991",
         ],
         "alternatives": [
-            "PyMuPDF>=1.23.0",
+            "PyMuPDF>=1.20.0",
             "Wand>=0.6.0",
         ]
     },
@@ -54,6 +55,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Topic :: Multimedia :: Graphics :: Graphics Conversion",
         "Topic :: Office/Business",
         "Topic :: Utilities",

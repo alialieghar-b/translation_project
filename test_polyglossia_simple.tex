@@ -1,0 +1,30 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+
+% --- Document Setup ---
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+% Try with available fonts first
+\newfontfamily\farsifont[Script=Arabic]{Vazirmatn}
+\newfontfamily\englishfont{Times New Roman}
+
+% --- Custom Commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\eng}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Font Test}
+
+\eng{This is English text.}
+
+\fa{این متن فارسی است.}
+
+\eng{English numbers: 123}
+
+\fa{اعداد فارسی: ۱۲۳}
+
+\end{document}

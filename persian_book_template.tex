@@ -1,0 +1,283 @@
+% Persian Book Template
+% Complete LaTeX template for Persian books with proper RTL support
+% Compile with XeLaTeX or LuaLaTeX
+
+\documentclass[12pt,a4paper,oneside]{book}
+
+% Essential packages for Persian
+\usepackage{fontspec}
+\usepackage{xepersian}
+\usepackage{bidi}
+
+% Additional useful packages
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+
+% Page geometry
+\geometry{
+    top=3cm,
+    bottom=3cm,
+    left=3cm,
+    right=3cm,
+    headheight=15pt
+}
+
+% Persian fonts (adjust based on your system)
+\settextfont[Scale=1.2]{Vazir}  % Main text font
+\setdigitfont{Vazir}           % Digits font
+\setlatintextfont{Times New Roman} % For Latin text within Persian
+
+% Alternative fonts (uncomment if you prefer):
+% \settextfont{B Nazanin}
+% \settextfont{IRLotus}
+% \settextfont{XB Niloofar}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=red,
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    pdftitle={عنوان کتاب},
+    pdfauthor={نام نویسنده},
+    pdfsubject={موضوع کتاب},
+    pdfkeywords={کلیدواژه‌ها}
+}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Chapter and section formatting
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\centering}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}
+{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}
+{\thesubsection}{1em}{}
+
+% Table of contents formatting
+\renewcommand{\contentsname}{فهرست مطالب}
+\renewcommand{\listfigurename}{فهرست تصاویر}
+\renewcommand{\listtablename}{فهرست جداول}
+\renewcommand{\bibname}{منابع}
+\renewcommand{\indexname}{نمایه}
+\renewcommand{\figurename}{شکل}
+\renewcommand{\tablename}{جدول}
+\renewcommand{\chaptername}{فصل}
+\renewcommand{\appendixname}{پیوست}
+
+% Custom commands for better Persian typography
+\newcommand{\persianquote}[1]{«#1»}
+\newcommand{\englishtext}[1]{\lr{#1}}
+\newcommand{\persiannum}[1]{\lr{#1}}
+
+% Document information
+\title{عنوان کتاب}
+\author{نام نویسنده}
+\date{\today}
+
+\begin{document}
+
+% Front matter
+\frontmatter
+
+% Title page
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries عنوان کتاب}
+
+\vspace{1.5cm}
+
+{\Large نویسنده: نام نویسنده}
+
+\vspace{1cm}
+
+{\large مترجم: نام مترجم}
+
+\vspace{2cm}
+
+% Add publisher logo or image here if needed
+% \includegraphics[width=0.3\textwidth]{logo.png}
+
+\vspace{2cm}
+
+{\large انتشارات نام ناشر}
+
+\vspace{1cm}
+
+{\large سال انتشار}
+
+\vfill
+
+\end{titlepage}
+
+% Copyright page
+\newpage
+\thispagestyle{empty}
+\vspace*{10cm}
+
+\noindent
+عنوان اصلی: Original English Title\\
+نویسنده: Original Author Name\\
+مترجم: Translator Name\\
+ناشر: Publisher Name\\
+سال انتشار: Publication Year\\
+شابک: ISBN Number\\
+
+\vspace{1cm}
+
+\noindent
+تمامی حقوق این کتاب محفوظ است و هرگونه تکثیر، انتشار یا استفاده از مطالب آن بدون اجازه کتبی ناشر ممنوع می‌باشد.
+
+\newpage
+
+% Dedication (optional)
+\thispagestyle{empty}
+\vspace*{8cm}
+\begin{center}
+{\large\itshape تقدیم به...}
+\end{center}
+\newpage
+
+% Preface
+\chapter*{پیشگفتار}
+\addcontentsline{toc}{chapter}{پیشگفتار}
+
+در اینجا پیشگفتار کتاب نوشته می‌شود. این بخش معمولاً شامل توضیحاتی درباره هدف کتاب، روش ترجمه، و تشکر از افرادی است که در تهیه کتاب مشارکت داشته‌اند.
+
+% Table of contents
+\tableofcontents
+
+% List of figures (if needed)
+% \listoffigures
+
+% List of tables (if needed)
+% \listoftables
+
+% Main matter
+\mainmatter
+
+% Chapter 1
+\chapter{عنوان فصل اول}
+\label{ch:chapter1}
+
+این فصل اول کتاب است. در اینجا محتوای اصلی کتاب شروع می‌شود.
+
+\section{عنوان بخش اول}
+\label{sec:section1}
+
+محتوای بخش اول در اینجا نوشته می‌شود. برای نوشتن متن فارسی، کافی است به صورت عادی تایپ کنید.
+
+\subsection{عنوان زیربخش}
+
+محتوای زیربخش در اینجا قرار می‌گیرد.
+
+% Example of including an image
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{image.png}
+\caption{عنوان تصویر}
+\label{fig:example}
+\end{figure}
+
+% Example of a table
+\begin{table}[h]
+\centering
+\caption{نمونه جدول}
+\label{tab:example}
+\begin{tabular}{|c|c|c|}
+\hline
+ستون اول & ستون دوم & ستون سوم \\
+\hline
+داده ۱ & داده ۲ & داده ۳ \\
+داده ۴ & داده ۵ & داده ۶ \\
+\hline
+\end{tabular}
+\end{table}
+
+% Example of lists
+\section{نمونه فهرست‌ها}
+
+فهرست نقطه‌ای:
+\begin{itemize}
+\item مورد اول
+\item مورد دوم
+\item مورد سوم
+\end{itemize}
+
+فهرست شماره‌دار:
+\begin{enumerate}
+\item مورد اول
+\item مورد دوم
+\item مورد سوم
+\end{enumerate}
+
+% Example of mathematical formulas
+\section{فرمول‌های ریاضی}
+
+فرمول درون متن: $E = mc^2$
+
+فرمول جداگانه:
+\begin{equation}
+\int_{a}^{b} f(x) dx = F(b) - F(a)
+\label{eq:fundamental}
+\end{equation}
+
+% Example of cross-references
+همان‌طور که در شکل~\ref{fig:example} مشاهده می‌کنید و در جدول~\ref{tab:example} آمده است، و طبق معادله~\ref{eq:fundamental}...
+
+% Chapter 2
+\chapter{عنوان فصل دوم}
+\label{ch:chapter2}
+
+محتوای فصل دوم در اینجا قرار می‌گیرد.
+
+% Add more chapters as needed...
+
+% Back matter
+\backmatter
+
+% Bibliography
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{منابع}
+
+\bibitem{ref1}
+نام نویسنده، «عنوان مقاله»، نام مجله، شماره، سال، صفحات.
+
+\bibitem{ref2}
+نام نویسنده، \textit{عنوان کتاب}، نام ناشر، شهر انتشار، سال انتشار.
+
+\end{thebibliography}
+
+% Index (optional)
+% \printindex
+
+\end{document}

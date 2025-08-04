@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{fontspec}
+
+% Test Issue 4: Complex commands as LaTeX arguments
+\newcommand{\testcommand}[1]{%
+    \textbf{Command:} \texttt{#1}
+}
+
+\begin{document}
+\title{Test Issue 4: Complex Arguments}
+\maketitle
+
+Testing simple command:
+\testcommand{sudo apt update}
+
+Testing complex command with special characters:
+\testcommand{sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"}
+
+\end{document}

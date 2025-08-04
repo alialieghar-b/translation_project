@@ -1,0 +1,499 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}        % BEFORE xepersian (following best practices)
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{amsmath}
+
+% Page setup
+\geometry{a4paper, margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Oh My Zsh Installation Guide}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{From Bash to Zsh with Oh My Zsh}
+
+% Colors
+\definecolor{codebackground}{RGB}{248,248,248}
+\definecolor{codecolor}{RGB}{51,51,51}
+\definecolor{commentcolor}{RGB}{0,128,0}
+\definecolor{keywordcolor}{RGB}{0,0,255}
+
+% Code listing setup
+\lstset{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small\color{codecolor},
+    commentstyle=\color{commentcolor},
+    keywordstyle=\color{keywordcolor},
+    breaklines=true,
+    frame=single,
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b
+}
+
+% Custom boxes
+\newtcolorbox{warningbox}{
+    colback=yellow!10,
+    colframe=orange!75,
+    title=Warning,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{infobox}{
+    colback=blue!5,
+    colframe=blue!75,
+    title=Information,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{successbox}{
+    colback=green!5,
+    colframe=green!75,
+    title=Success,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{codebox}{
+    colback=gray!10,
+    colframe=gray!50,
+    fontupper=\ttfamily\small
+}
+
+\title{Complete Guide: From Bash to Oh My Zsh\\
+\large Including Codespaces Configuration}
+\author{Terminal Enhancement Guide}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+This guide provides comprehensive instructions for switching from the default bash shell to Zsh with Oh My Zsh framework. We'll cover installation, configuration, and specific instructions for GitHub Codespaces environments.
+
+\begin{infobox}
+\textbf{What is Oh My Zsh?}\\
+Oh My Zsh is an open-source framework for managing Zsh configuration. It provides:
+\begin{itemize}
+    \item Beautiful themes and prompts
+    \item Hundreds of helpful plugins
+    \item Auto-completion enhancements
+    \item Git integration
+    \item Customizable aliases and functions
+\end{itemize}
+\end{infobox}
+
+\section{Prerequisites}
+
+Before starting, ensure you have:
+
+\begin{enumerate}
+    \item Terminal access (bash, zsh, or similar)
+    \item Internet connection for downloading packages
+    \item Basic command-line knowledge
+    \item Administrative privileges (sudo access)
+\end{enumerate}
+
+\begin{warningbox}
+\textbf{Backup Your Current Configuration}\\
+Before making changes, backup your existing shell configuration:
+\begin{verbatim}
+cp ~/.bashrc ~/.bashrc.backup
+cp ~/.bash_profile ~/.bash_profile.backup
+\end{verbatim}
+\end{warningbox}
+
+\section{Step 1: Install Zsh}
+
+\subsection{Ubuntu/Debian Systems}
+
+\begin{codebox}
+sudo apt update
+sudo apt install zsh
+\end{codebox}
+
+\subsection{CentOS/RHEL/Fedora Systems}
+
+\begin{codebox}
+\# CentOS/RHEL
+sudo yum install zsh
+
+\# Fedora
+sudo dnf install zsh
+\end{codebox}
+
+\subsection{macOS Systems}
+
+\begin{codebox}
+\# Using Homebrew
+brew install zsh
+
+\# Or using MacPorts
+sudo port install zsh
+\end{codebox}
+
+\subsection{Verify Zsh Installation}
+
+\begin{codebox}
+zsh --version
+which zsh
+\end{codebox}
+
+Expected output should show Zsh version 5.0 or higher.
+
+\section{Step 2: Install Oh My Zsh}
+
+\subsection{Method 1: Using curl}
+
+\begin{verbatim}
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+\end{verbatim}
+
+\subsection{Method 2: Using wget}
+
+\begin{verbatim}
+sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+\end{verbatim}
+
+\subsection{Method 3: Manual Installation}
+
+\begin{codebox}
+git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+\end{codebox}
+
+\section{Step 3: Change Default Shell to Zsh}
+
+\subsection{Standard Linux/Unix Systems}
+
+\begin{codebox}
+chsh -s \$(which zsh)
+\end{codebox}
+
+\subsection{GitHub Codespaces - Method 1}
+
+For GitHub Codespaces environments, use this command:
+
+\begin{codebox}
+sudo chsh -s \\$(which zsh) \\$(whoami)
+\end{codebox}
+
+\subsection{GitHub Codespaces - Method 2 (Alternative)}
+
+If the first method doesn't work, try:
+
+\begin{codebox}
+sudo chsh "\$(id -un)" --shell "\$(which zsh)"
+\end{codebox}
+
+\begin{infobox}
+\textbf{Why Different Commands for Codespaces?}\\
+GitHub Codespaces runs in a containerized environment where:
+\begin{itemize}
+    \item Standard \texttt{chsh} might not have sufficient permissions
+    \item \texttt{sudo} is required for shell changes
+    \item User identification needs to be explicit
+    \item Container restrictions may require alternative syntax
+\end{itemize}
+\end{infobox}
+
+\subsection{Verify Shell Change}
+
+\begin{codebox}
+echo $SHELL
+grep \$(whoami) /etc/passwd
+\end{codebox}
+
+The output should show the path to zsh (e.g., \texttt{/usr/bin/zsh}).
+
+\section{Step 4: Restart Terminal}
+
+After changing the shell, you need to restart your terminal session:
+
+\begin{enumerate}
+    \item Close your current terminal
+    \item Open a new terminal session
+    \item Or logout and login again
+    \item For Codespaces: Restart the container or reload the window
+\end{enumerate}
+
+\begin{successbox}
+If successful, you should see the Oh My Zsh welcome message and a new colorful prompt!
+\end{successbox}
+
+\section{Step 5: Basic Configuration}
+
+\subsection{Edit Zsh Configuration}
+
+\begin{codebox}
+nano ~/.zshrc
+\# or
+vim ~/.zshrc
+\end{codebox}
+
+\subsection{Key Configuration Options}
+
+\begin{lstlisting}[language=bash, caption=Basic .zshrc configuration]
+\# Oh My Zsh installation path
+export ZSH="$HOME/.oh-my-zsh"
+
+\# Theme selection
+ZSH_THEME="robbyrussell"  \# Default theme
+\# ZSH_THEME="agnoster"    \# Popular alternative
+\# ZSH_THEME="powerlevel10k/powerlevel10k"  \# Advanced theme
+
+\# Plugins
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    docker
+    kubectl
+    node
+    npm
+)
+
+\# Source Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+
+\# Custom aliases
+alias ll="ls -la"
+alias la="ls -A"
+alias l="ls -CF"
+alias ..="cd .."
+alias ...="cd ../.."
+
+\# Custom functions
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+\end{lstlisting}
+
+\section{Step 6: Install Popular Plugins}
+
+\subsection{Zsh Autosuggestions}
+
+\begin{codebox}
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+\end{codebox}
+
+\subsection{Zsh Syntax Highlighting}
+
+\begin{codebox}
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+\end{codebox}
+
+\subsection{Powerlevel10k Theme (Optional)}
+
+\begin{codebox}
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+\end{codebox}
+
+Then set \texttt{ZSH\_THEME="powerlevel10k/powerlevel10k"} in your \texttt{.zshrc}.
+
+\section{Step 7: Apply Changes}
+
+After making configuration changes:
+
+\begin{codebox}
+source ~/.zshrc
+\end{codebox}
+
+\section{Troubleshooting}
+
+\subsection{Common Issues and Solutions}
+
+\begin{enumerate}
+    \item \textbf{Permission Denied}
+    \begin{codebox}
+sudo chsh -s \$(which zsh) $USER
+    \end{codebox}
+    
+    \item \textbf{Zsh Not Found}
+    \begin{codebox}
+which zsh
+\# If empty, reinstall zsh
+sudo apt install zsh  \# Ubuntu/Debian
+    \end{codebox}
+    
+    \item \textbf{Oh My Zsh Installation Failed}
+    \begin{codebox}
+\# Check internet connection and try manual installation
+curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    \end{codebox}
+    
+    \item \textbf{Plugins Not Working}
+    \begin{codebox}
+\# Ensure plugins are in the correct directory
+ls ~/.oh-my-zsh/custom/plugins/
+\# Restart terminal after adding plugins
+    \end{codebox}
+\end{enumerate}
+
+\subsection{Codespaces-Specific Issues}
+
+\begin{warningbox}
+\textbf{Container Persistence}\\
+In GitHub Codespaces, remember that:
+\begin{itemize}
+    \item Shell changes persist across container restarts
+    \item Custom configurations in \texttt{~/.zshrc} are preserved
+    \item Installed plugins remain available
+    \item Theme preferences are maintained
+\end{itemize}
+\end{warningbox}
+
+\section{Advanced Configuration}
+
+\subsection{Custom Prompt Configuration}
+
+\begin{lstlisting}[language=bash, caption=Custom prompt example]
+\# Custom prompt with git status
+PROMPT='%F{cyan}%n@%m%f:%F{yellow}%~%f\$(git_prompt_info) %# '
+ZSH_THEME_GIT_PROMPT_PREFIX=" %F{red}("
+ZSH_THEME_GIT_PROMPT_SUFFIX=")%f"
+ZSH_THEME_GIT_PROMPT_DIRTY="%F{yellow}*%f"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+\end{lstlisting}
+
+\subsection{Environment Variables}
+
+\begin{lstlisting}[language=bash, caption=Environment setup]
+\# Development environment
+export EDITOR="code"
+export BROWSER="google-chrome"
+export TERM="xterm-256color"
+
+\# Path additions
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+
+\# Node.js
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+\end{lstlisting}
+
+\section{Useful Aliases and Functions}
+
+\begin{lstlisting}[language=bash, caption=Productivity aliases]
+\# Git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git log --oneline"
+
+\# Docker aliases
+alias dps="docker ps"
+alias dpa="docker ps -a"
+alias di="docker images"
+alias drm="docker rm"
+alias drmi="docker rmi"
+
+\# System aliases
+alias h="history"
+alias j="jobs"
+alias c="clear"
+alias e="exit"
+
+\# Directory navigation
+alias home="cd ~"
+alias root="cd /"
+alias dtop="cd ~/Desktop"
+alias docs="cd ~/Documents"
+
+\# File operations
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="rm -i"
+alias mkdir="mkdir -p"
+
+\# Network
+alias ping="ping -c 5"
+alias ports="netstat -tulanp"
+\end{lstlisting}
+
+\section{Verification and Testing}
+
+\subsection{Test Your Setup}
+
+\begin{enumerate}
+    \item \textbf{Check Shell}
+    \begin{codebox}
+echo $SHELL
+ps -p $$
+    \end{codebox}
+    
+    \item \textbf{Test Oh My Zsh}
+    \begin{codebox}
+omz version
+omz plugin list
+    \end{codebox}
+    
+    \item \textbf{Test Autocompletion}
+    \begin{codebox}
+git <TAB><TAB>
+docker <TAB><TAB>
+    \end{codebox}
+    
+    \item \textbf{Test Plugins}
+    \begin{codebox}
+\# Type a command and see suggestions
+ls
+\# Use arrow keys to navigate history
+    \end{codebox}
+\end{enumerate}
+
+\section{Conclusion}
+
+You have successfully:
+
+\begin{successbox}
+\begin{itemize}
+    \item ✅ Installed Zsh shell
+    \item ✅ Installed Oh My Zsh framework
+    \item ✅ Changed default shell (including Codespaces methods)
+    \item ✅ Configured themes and plugins
+    \item ✅ Set up useful aliases and functions
+    \item ✅ Verified the installation
+\end{itemize}
+\end{successbox}
+
+\subsection{Next Steps}
+
+\begin{enumerate}
+    \item Explore more themes: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Themes}
+    \item Discover plugins: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins}
+    \item Customize your prompt further
+    \item Share your configuration with team members
+    \item Consider using dotfiles for configuration management
+\end{enumerate}
+
+\subsection{Resources}
+
+\begin{itemize}
+    \item Oh My Zsh GitHub: \url{https://github.com/ohmyzsh/ohmyzsh}
+    \item Zsh Documentation: \url{https://zsh.sourceforge.io/Doc/}
+    \item Awesome Zsh Plugins: \url{https://github.com/unixorn/awesome-zsh-plugins}
+    \item Powerlevel10k: \url{https://github.com/romkatv/powerlevel10k}
+\end{itemize}
+
+\begin{infobox}
+\textbf{Remember}\\
+Your terminal is now more powerful and user-friendly. Take time to explore the features and customize it to your workflow. Happy coding!
+\end{infobox}
+
+\end{document}

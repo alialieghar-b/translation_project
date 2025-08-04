@@ -1,3 +1,4 @@
+
 .PHONY: help install install-dev test lint format clean build upload sample-pdf
 
 help:
@@ -10,6 +11,7 @@ help:
 	@echo "  clean        - Clean build artifacts"
 	@echo "  build        - Build distribution packages"
 	@echo "  sample-pdf   - Create a sample PDF for testing"
+	@echo "  test-full    - Run tests with sample PDF"
 
 install:
 	pip install .
@@ -41,8 +43,19 @@ build: clean
 sample-pdf:
 	python create_sample_pdf.py
 
-# Quick test with sample PDF
-test-full: sample-pdf
-	python pdf_converter.py sample.pdf --output-dir ./test_output --verbose
-	python pdf_converter.py sample.pdf --preset high --output-dir ./test_high
-	python pdf_converter.py sample.pdf --format JPEG --dpi 150 --output-dir ./test_jpeg
+# Quick test with sample PDF or existing PDF
+test-full: test
+	@if [ -f "sample.pdf" ]; then \
+		echo "Testing with sample.pdf..."; \
+		python pdf_converter.py sample.pdf --output-dir ./test_output --verbose; \
+		python pdf_converter.py sample.pdf --preset high --output-dir ./test_high; \
+		python pdf_converter.py sample.pdf --format JPEG --dpi 150 --output-dir ./test_jpeg; \
+	elif [ -f "changing zsh to ohmyz.sh.pdf" ]; then \
+		echo "Testing with existing PDF file..."; \
+		python pdf_converter.py "changing zsh to ohmyz.sh.pdf" --output-dir ./test_output --verbose; \
+		python pdf_converter.py "changing zsh to ohmyz.sh.pdf" --preset high --output-dir ./test_high; \
+		python pdf_converter.py "changing zsh to ohmyz.sh.pdf" --format JPEG --dpi 150 --output-dir ./test_jpeg; \
+	else \
+		echo "No PDF file found. Run 'make sample-pdf' first or add a PDF file."; \
+		exit 1; \
+	fi

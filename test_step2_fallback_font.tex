@@ -1,0 +1,21 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+
+% --- Document Setup ---
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup - Try with system fallback ---
+\newfontfamily\farsifont{DejaVu Sans}
+\newfontfamily\englishfont{DejaVu Sans}
+
+\begin{document}
+
+\section*{Test Step 2: Fallback Fonts}
+
+This is English text.
+
+\textfarsi{Persian text test}
+
+\end{document}

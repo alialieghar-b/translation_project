@@ -1,0 +1,124 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document: New materials for lithium-sulfur batteries
+% Page: 1
+% Language: English
+% Output: Structure + Translation (IMPROVED)
+% Enhanced by: Persian-English Translation & PDF Structure Expert
+% Applied: Bulletproof LaTeX structure from errors_learned_from.txt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt,a4paper]{article}
+
+% CRITICAL: Load packages in correct order - BEFORE any language packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{wrapfig} % For wrapping text around the figure
+\usepackage{hyperref} % ALWAYS before language packages
+
+% Language packages - MUST be loaded LAST
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- HYPERLINK SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={New materials for lithium-sulfur batteries},
+    pdfauthor={Montree Sawangphruk},
+}
+
+% Safe command definitions - prevent conflicts
+\providecommand{\english}[1]{#1}
+
+% --- DOCUMENT START ---
+\begin{document}
+
+% --- HEADER INFORMATION (Reconstructed from PDF) ---
+\begin{minipage}[t]{0.48\textwidth}
+    \texttt{\small ChemComm}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \raggedleft
+    \includegraphics[width=4cm]{example-image-a} % Placeholder for RSC logo
+\end{minipage}
+
+\hrule
+\vspace{2mm}
+
+\noindent\textbf{\Large FEATURE ARTICLE} \hfill \href{https://rsc.li/chemcomm}{\small View Article Online}
+
+\vspace{4mm}
+
+% --- TITLE & AUTHOR ---
+{\Huge\bfseries New materials for lithium-sulfur batteries: challenges and future directions\par}
+\vspace{6mm}
+
+{\Large Montree Sawangphruk\textsuperscript{a}\par}
+\vspace{8mm}
+
+% --- METADATA (Reconstructed from PDF) ---
+\noindent\rule{\textwidth}{0.4pt}
+\begin{itemize}
+    \item[\textbf{Cite this:}] \textit{Chem. Commun.}, 2025, \textbf{61}, 7770
+    \item[\textbf{Received:}] 3rd March 2025
+    \item[\textbf{Accepted:}] 22nd April 2025
+    \item[\textbf{DOI:}] \href{https://doi.org/10.1039/d5cc01150g}{10.1039/d5cc01150g}
+    \item[\textbf{Source URL:}] \href{https://rsc.li/chemcomm}{rsc.li/chemcomm}
+\end{itemize}
+\rule{\textwidth}{0.4pt}
+\vspace{5mm}
+
+% --- ABSTRACT ---
+\begin{abstract}
+\noindent This review explores recent advances in lithium-sulfur (Li-S) batteries, promising next-generation energy storage devices known for their exceptionally high theoretical energy density ($\sim$2500 W h kg$^{-1}$), cost-effectiveness, and environmental advantages. Despite their potential, commercialization remains limited by key challenges such as the polysulfide shuttle effect, sulfur's insulating nature, lithium metal anode instability, and thermal safety concerns. This review provides a comprehensive and forward-looking perspective on emerging material strategies—focusing on cathode, electrolyte, and anode engineering—to overcome these barriers. Special emphasis is placed on advanced sulfur-carbon composites, including three-dimensional graphene frameworks, metal-organic frameworks (MOFs), covalent organic frameworks (COFs), and MXene-based materials, which have demonstrated significant improvements in sulfur utilization, redox kinetics, and cycling stability. Innovations in electrolytes—particularly solid-state and gel polymer systems—are discussed for their roles in suppressing polysulfide dissolution and enhancing safety. This review also examines lithium metal anode protection strategies, such as use of artificial SEI layers and 3D lithium scaffolds and lithium alloying. Finally, it discusses critical issues related to large-scale manufacturing, safety, and commercial scalability. With ongoing innovation in multifunctional materials and electrode design, Li-S batteries are well positioned to transform energy storage for electric vehicles, portable electronics, and grid-scale systems.
+\end{abstract}
+\vspace{5mm}
+
+% --- TWO-COLUMN LAYOUT RECONSTRUCTION (Author Bio & Introduction) ---
+\begin{minipage}[t]{0.48\textwidth}
+    \vspace{0pt} % To align the top of the minipage with the main text
+    
+    % --- AUTHOR AFFILIATION & BIO ---
+    {\small \textsuperscript{a}\textit{Centre of Excellence for Energy Storage Technology, Department of Chemical and Biomolecular Engineering, School of Energy Science and Engineering, Vidyasirimedhi Institute of Science and Technology, Rayong 21210, Thailand. E-mail: montree.s@vistec.ac.th}}
+    \vspace{1cm}
+    
+    \begin{wrapfigure}{l}{0.4\textwidth}
+        \includegraphics[width=\linewidth]{example-image-b} % Placeholder for author's photo
+        \caption*{\footnotesize\textbf{Montree Sawangphruk}}
+    \end{wrapfigure}
+
+    \small
+    Assoc. Prof. Dr. Montree Sawangphruk is the Director of the Centre of Excellence for Energy Storage Technology (CEST) at VISTEC, Thailand. He received his DPhil in Physical and Theoretical Chemistry from the University of Oxford, UK, in 2010. His research focuses on advanced materials for energy storage systems—particularly batteries and supercapacitors—with an emphasis on sustainable and innovative technologies. Dr. Sawangphruk has authored over 180 publications in high-impact journals and holds more than 60 patent filings. His contributions have been recognized with numerous prestigious honors, including the Asian Rising Star Award (2019), the National Outstanding Scientist Award (2019), and the National Outstanding Researcher Award (2025).
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \vspace{0pt} % To align the top
+    
+    % --- INTRODUCTION SECTION ---
+    \section*{1. Introduction}
+    \subsection*{1.1. Overview of Li-S batteries}
+    
+    The increasing global demand for high-performance energy storage, driven by the transition toward renewable energy and the widespread adoption of electric vehicles (EVs), with over 17 million units sold in 2024, has intensified the search for next-generation battery technologies. Among the various emerging candidates, lithium-sulfur (Li-S) batteries have garnered significant attention due to their exceptionally high theoretical energy density (ca. 2500 W h kg$^{-1}$), cost-effectiveness, and the natural abundance of sulfur.\textsuperscript{1-5} Unlike conventional lithium-ion (Li-ion) batteries, which rely on intercalation-based cathode materials such as transition metal oxides, Li-S batteries utilize elemental sulfur as the cathode and lithium metal as the anode. This configuration offers substantial advantages in terms of energy storage potential, promising a transformative shift in battery technology.
+    
+    \vspace{0.5cm}
+    
+    Sulfur exhibits a theoretical specific capacity of 1675 mA h g$^{-1}$, which far surpasses the 140–200 mA h g$^{-1}$ capacity of conventional cathode materials like lithium iron phosphate (LiFePO$_{4}$ or LFP) and lithium nickel manganese cobalt oxide (NMC) being used in Li-ion cathodes. This remarkable capacity, coupled with the lightweight nature and affordability of sulfur, makes Li-S batteries highly attractive for applications ranging from electric mobility to grid-scale energy storage. Additionally, lithium metal anodes offer the highest theoretical specific capacity (3860 mA h g$^{-1}$) and the lowest electrochemical potential (-3.04 V vs. standard hydrogen electrode), making them ideal for high-energy-density applications.
+\end{minipage}
+
+\vspace{1cm}
+
+% --- FOOTER INFORMATION (Reconstructed from PDF) ---
+\vfill
+\hrule
+\noindent
+\texttt{\small 7770 | Chem. Commun., 2025, \textbf{61}, 7770-7794 \hfill This journal is \textcopyright\ The Royal Society of Chemistry 2025}
+
+\end{document}

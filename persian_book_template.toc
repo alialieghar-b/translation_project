@@ -1,0 +1,8 @@
+\contentsline {chapter}{پیشگفتار}{پ}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}عنوان فصل اول}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}عنوان بخش اول}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}عنوان زیربخش}{1}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}نمونه فهرست‌ها}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}فرمول‌های ریاضی}{2}{section.1.3}%
+\contentsline {chapter}{\numberline {2}عنوان فصل دوم}{3}{chapter.2}%
+\contentsline {chapter}{منابع}{4}{chapter*.2}%

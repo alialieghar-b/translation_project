@@ -1,0 +1,35 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{Vazirmatn}
+
+% --- Safe custom commands ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+\newcommand{\en}[1]{\textenglish{#1}}
+
+\begin{document}
+
+\section*{Test: Adding Hyperref Package}
+\label{sec:test}
+
+\en{English text with \href{https://www.latex-project.org}{external link}.}
+
+\fa{متن فارسی با \href{https://www.google.com}{پیوند خارجی}.}
+
+\en{Reference to section: \ref{sec:test}}
+
+\fa{ارجاع به بخش: \ref{sec:test}}
+
+\end{document}

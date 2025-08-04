@@ -1,0 +1,35 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{xepersian}
+
+% --- Font Setup using xepersian commands ---
+\settextfont[Script=Arabic]{Vazirmatn}
+\setdigitfont{Vazirmatn}
+\setlatintextfont{DejaVu Sans}
+
+% Force Persian script activation with hidden content
+\AtBeginDocument{%
+\begingroup
+\fontsize{1pt}{1pt}\selectfont
+\textcolor{white}{%
+این متن مخفی است برای فعال‌سازی ویژگی‌های فونت فارسی.
+سلام خوشحالم دوستان مدرسه کتابخانه دانشگاه
+}%
+\endgroup
+}
+
+\begin{document}
+
+\section*{تست فونت فارسی}
+
+This research focuses on تعلیم (education) and فرهنگ (culture) concepts.
+
+متن فارسی برای تست اتصال حروف
+
+کلمات تست: سلام، خوشحالم، دوستان، مدرسه
+
+اگر این متن به درستی نمایش داده شود، فونت با موفقیت کار می‌کند.
+
+\end{document}

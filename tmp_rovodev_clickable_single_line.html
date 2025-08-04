@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oh My Zsh Installation Guide - Interactive Version</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        
+        .code-block {
+            position: relative;
+            background: #f8f8f8;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        
+        .code-block:hover {
+            border-color: #007bff;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.15);
+        }
+        
+        .code-block::before {
+            content: "📋 Click to copy";
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .code-block:hover::before {
+            opacity: 1;
+        }
+        
+        .code-block.copied::before {
+            content: "✅ Copied!";
+            background: #28a745;
+        }
+        
+        .code-content {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            padding: 15px;
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: #333;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success-box {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-number {
+            background: #007bff;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Complete Guide: From Bash to Oh My Zsh</h1>
+        <p><em>Including Codespaces Configuration - Interactive Version</em></p>
+        
+        <div class="info-box">
+            <strong>💡 How to use this guide:</strong><br>
+            Click any code block to copy the command to your clipboard. The visual display may wrap for readability, but you'll always copy the correct single-line command.
+        </div>
+
+        <h2>📋 Prerequisites</h2>
+        <div class="warning-box">
+            <strong>⚠️ Backup Your Configuration</strong><br>
+            Before making changes, backup your existing shell configuration:
+        </div>
+        
+        <div class="code-block" onclick="copyToClipboard(this, 'cp ~/.bashrc ~/.bashrc.backup')">
+            <pre class="code-content">cp ~/.bashrc ~/.bashrc.backup</pre>
+        </div>
+        
+        <div class="code-block" onclick="copyToClipboard(this, 'cp ~/.bash_profile ~/.bash_profile.backup')">
+            <pre class="code-content">cp ~/.bash_profile ~/.bash_profile.backup</pre>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">1</span>Install Zsh</h2>
+            
+            <h3>Ubuntu/Debian Systems</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo apt update')">
+                <pre class="code-content">sudo apt update</pre>
+            </div>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo apt install zsh')">
+                <pre class="code-content">sudo apt install zsh</pre>
+            </div>
+
+            <h3>CentOS/RHEL/Fedora Systems</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo yum install zsh')">
+                <pre class="code-content"># CentOS/RHEL
+sudo yum install zsh</pre>
+            </div>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo dnf install zsh')">
+                <pre class="code-content"># Fedora
+sudo dnf install zsh</pre>
+            </div>
+
+            <h3>macOS Systems</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'brew install zsh')">
+                <pre class="code-content"># Using Homebrew
+brew install zsh</pre>
+            </div>
+
+            <h3>Verify Installation</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'zsh --version')">
+                <pre class="code-content">zsh --version</pre>
+            </div>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'which zsh')">
+                <pre class="code-content">which zsh</pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">2</span>Install Oh My Zsh</h2>
+            
+            <h3>Method 1: Using curl</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'sh -c \"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\"')">
+                <pre class="code-content">sh -c "$(curl -fsSL 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</pre>
+            </div>
+
+            <h3>Method 2: Using wget</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'sh -c \"$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)\"')">
+                <pre class="code-content">sh -c "$(wget 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"</pre>
+            </div>
+
+            <h3>Method 3: Manual Installation</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh')">
+                <pre class="code-content">git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh</pre>
+            </div>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc')">
+                <pre class="code-content">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">3</span>Change Default Shell to Zsh</h2>
+            
+            <h3>Standard Linux/Unix Systems</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'chsh -s $(which zsh)')">
+                <pre class="code-content">chsh -s $(which zsh)</pre>
+            </div>
+
+            <h3>GitHub Codespaces - Method 1</h3>
+            <div class="info-box">
+                <strong>🔧 For GitHub Codespaces environments, use this command:</strong>
+            </div>
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo chsh -s $(which zsh) $(whoami)')">
+                <pre class="code-content">sudo chsh -s $(which zsh) $(whoami)</pre>
+            </div>
+
+            <h3>GitHub Codespaces - Method 2 (Alternative)</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'sudo chsh \"$(id -un)\" --shell \"$(which zsh)\"')">
+                <pre class="code-content">sudo chsh "$(id -un)" --shell "$(which zsh)"</pre>
+            </div>
+
+            <h3>Verify Shell Change</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'echo $SHELL')">
+                <pre class="code-content">echo $SHELL</pre>
+            </div>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'grep $(whoami) /etc/passwd')">
+                <pre class="code-content">grep $(whoami) /etc/passwd</pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">4</span>Install Popular Plugins</h2>
+            
+            <h3>Zsh Autosuggestions</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions')">
+                <pre class="code-content">git clone https://github.com/zsh-users/zsh-autosuggestions 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions</pre>
+            </div>
+
+            <h3>Zsh Syntax Highlighting</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting')">
+                <pre class="code-content">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</pre>
+            </div>
+
+            <h3>Powerlevel10k Theme (Optional)</h3>
+            <div class="code-block" onclick="copyToClipboard(this, 'git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k')">
+                <pre class="code-content">git clone --depth=1 https://github.com/romkatv/powerlevel10k.git 
+${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k</pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">5</span>Apply Changes</h2>
+            
+            <div class="code-block" onclick="copyToClipboard(this, 'source ~/.zshrc')">
+                <pre class="code-content">source ~/.zshrc</pre>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h3>🎉 Success!</h3>
+            <p>You have successfully:</p>
+            <ul>
+                <li>✅ Installed Zsh shell</li>
+                <li>✅ Installed Oh My Zsh framework</li>
+                <li>✅ Changed default shell (including Codespaces methods)</li>
+                <li>✅ Configured themes and plugins</li>
+                <li>✅ Applied the configuration</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <strong>🔗 Next Steps:</strong><br>
+            <ul>
+                <li>Explore more themes: <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes" target="_blank">Oh My Zsh Themes</a></li>
+                <li>Discover plugins: <a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins" target="_blank">Oh My Zsh Plugins</a></li>
+                <li>Customize your prompt further</li>
+                <li>Share your configuration with team members</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        Command copied to clipboard!
+    </div>
+
+    <script>
+        function copyToClipboard(element, originalCommand) {
+            // Copy the original single-line command
+            navigator.clipboard.writeText(originalCommand).then(function() {
+                // Show visual feedback
+                element.classList.add('copied');
+                showToast();
+                
+                // Reset visual feedback after 2 seconds
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = originalCommand;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                element.classList.add('copied');
+                showToast();
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Add keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'c') {
+                const focusedElement = document.activeElement;
+                if (focusedElement.classList.contains('code-block')) {
+                    e.preventDefault();
+                    focusedElement.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

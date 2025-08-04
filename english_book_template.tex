@@ -1,0 +1,352 @@
+% English Book Template
+% Complete LaTeX template for English books
+% Compile with pdfLaTeX, XeLaTeX, or LuaLaTeX
+
+\documentclass[12pt,a4paper,oneside]{book}
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% Additional useful packages
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{csquotes}
+
+% Page geometry
+\geometry{
+    top=3cm,
+    bottom=3cm,
+    left=3cm,
+    right=3cm,
+    headheight=15pt
+}
+
+% Font selection (uncomment your preference)
+% \usepackage{times}           % Times New Roman
+% \usepackage{palatino}        % Palatino
+% \usepackage{charter}         % Charter
+% \usepackage{lmodern}         % Latin Modern (default enhanced)
+
+% Line spacing
+\onehalfspacing  % 1.5 line spacing, use \doublespacing for double
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=red,
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    pdftitle={Book Title},
+    pdfauthor={Author Name},
+    pdfsubject={Book Subject},
+    pdfkeywords={Keywords}
+}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Chapter and section formatting
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\centering}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}
+{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}
+{\thesubsection}{1em}{}
+
+% Custom commands
+\newcommand{\emphasis}[1]{\textit{#1}}
+\newcommand{\strong}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% Document information
+\title{Book Title}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+
+% Front matter
+\frontmatter
+
+% Title page
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries Book Title}
+
+\vspace{1.5cm}
+
+{\Large Author: Author Name}
+
+\vspace{1cm}
+
+{\large Translator: Translator Name}
+
+\vspace{2cm}
+
+% Add publisher logo or image here if needed
+% \includegraphics[width=0.3\textwidth]{logo.png}
+
+\vspace{2cm}
+
+{\large Publisher Name}
+
+\vspace{1cm}
+
+{\large Publication Year}
+
+\vfill
+
+\end{titlepage}
+
+% Copyright page
+\newpage
+\thispagestyle{empty}
+\vspace*{10cm}
+
+\noindent
+Original Title: Original Title\\
+Author: Author Name\\
+Translator: Translator Name\\
+Publisher: Publisher Name\\
+Publication Year: Year\\
+ISBN: ISBN Number\\
+
+\vspace{1cm}
+
+\noindent
+All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher.
+
+\newpage
+
+% Dedication (optional)
+\thispagestyle{empty}
+\vspace*{8cm}
+\begin{center}
+{\large\itshape Dedicated to...}
+\end{center}
+\newpage
+
+% Preface
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This is where the preface of the book is written. This section typically includes explanations about the purpose of the book, translation methodology, and acknowledgments to those who contributed to the preparation of the book.
+
+The preface should provide context for the reader and explain any special considerations or approaches taken in the translation or writing process.
+
+% Table of contents
+\tableofcontents
+
+% List of figures (if needed)
+% \listoffigures
+
+% List of tables (if needed)
+% \listoftables
+
+% Main matter
+\mainmatter
+
+% Chapter 1
+\chapter{First Chapter Title}
+\label{ch:chapter1}
+
+This is the first chapter of the book. The main content of the book begins here.
+
+\section{First Section Title}
+\label{sec:section1}
+
+The content of the first section is written here. You can write regular English text naturally.
+
+\subsection{Subsection Title}
+
+The content of the subsection goes here.
+
+% Example of including an image
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{image.png}
+\caption{Example Figure Caption}
+\label{fig:example}
+\end{figure}
+
+% Example of a table
+\begin{table}[h]
+\centering
+\caption{Example Table}
+\label{tab:example}
+\begin{tabular}{|c|c|c|}
+\hline
+Column 1 & Column 2 & Column 3 \\
+\hline
+Data 1 & Data 2 & Data 3 \\
+Data 4 & Data 5 & Data 6 \\
+\hline
+\end{tabular}
+\end{table}
+
+% Professional table with booktabs
+\begin{table}[h]
+\centering
+\caption{Professional Table Example}
+\label{tab:professional}
+\begin{tabular}{lcc}
+\toprule
+Feature & Value & Description \\
+\midrule
+Speed & 100 km/h & Maximum velocity \\
+Weight & 50 kg & Total mass \\
+Efficiency & 95\% & Energy conversion \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% Example of lists
+\section{Example Lists}
+
+Bulleted list:
+\begin{itemize}
+\item First item
+\item Second item
+\item Third item
+    \begin{itemize}
+    \item Nested item
+    \item Another nested item
+    \end{itemize}
+\end{itemize}
+
+Numbered list:
+\begin{enumerate}
+\item First item
+\item Second item
+\item Third item
+\end{enumerate}
+
+Description list:
+\begin{description}
+\item[Term 1] Definition of the first term
+\item[Term 2] Definition of the second term
+\item[Term 3] Definition of the third term
+\end{description}
+
+% Example of mathematical formulas
+\section{Mathematical Formulas}
+
+Inline formula: $E = mc^2$
+
+Display formula:
+\begin{equation}
+\int_{a}^{b} f(x) \, dx = F(b) - F(a)
+\label{eq:fundamental}
+\end{equation}
+
+Multiple equations:
+\begin{align}
+f(x) &= ax^2 + bx + c \label{eq:quadratic} \\
+g(x) &= \sin(x) + \cos(x) \label{eq:trigonometric}
+\end{align}
+
+% Example of cross-references
+As shown in Figure~\ref{fig:example} and presented in Table~\ref{tab:example}, and according to Equation~\ref{eq:fundamental}, we can observe that...
+
+% Example of quotations
+\section{Quotations}
+
+Short quote: \enquote{This is a short quotation.}
+
+Long quotation:
+\begin{quote}
+This is a longer quotation that spans multiple lines. It is set apart from the main text to emphasize its importance or to clearly distinguish it as quoted material from another source.
+\end{quote}
+
+% Example of footnotes
+\section{Footnotes and References}
+
+This text has a footnote\footnote{This is an example footnote that provides additional information.}.
+
+You can also reference other parts of the document, such as Chapter~\ref{ch:chapter1} or Section~\ref{sec:section1}.
+
+% Chapter 2
+\chapter{Second Chapter Title}
+\label{ch:chapter2}
+
+The content of the second chapter goes here. You can continue adding chapters as needed for your book.
+
+\section{Advanced Features}
+
+\subsection{Code Listings}
+
+For including code, you can use the \code{verbatim} environment:
+
+\begin{verbatim}
+def hello_world():
+    print("Hello, World!")
+    return True
+\end{verbatim}
+
+\subsection{Special Formatting}
+
+You can use \emphasis{emphasis}, \strong{strong text}, and \code{inline code}.
+
+% Add more chapters as needed...
+
+% Back matter
+\backmatter
+
+% Bibliography
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\bibitem{ref1}
+Author, A. (Year). \textit{Title of Book}. Publisher, City.
+
+\bibitem{ref2}
+Author, B. (Year). Title of Article. \textit{Journal Name}, Volume(Issue), pages.
+
+\bibitem{ref3}
+Author, C., \& Author, D. (Year). Title of Chapter. In E. Editor (Ed.), \textit{Title of Book} (pp. xx-xx). Publisher.
+
+\end{thebibliography}
+
+% Appendices (optional)
+\appendix
+\chapter{First Appendix}
+\label{app:first}
+
+Additional material that supports the main content but is not essential for the primary narrative can be placed in appendices.
+
+% Index (optional)
+% \printindex
+
+\end{document}

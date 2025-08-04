@@ -1,0 +1,29 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+% --- Document Setup ---
+\geometry{a4paper, margin=1in}
+\setdefaultlanguage{english}
+\setotherlanguage{farsi}
+
+% --- Font Setup ---
+\newfontfamily\arabicfont{DejaVu Sans}
+
+% --- One custom command ---
+\newcommand{\fa}[1]{\textfarsi{#1}}
+
+\begin{document}
+
+\section*{Test: Adding Graphicx Package}
+
+English text.
+
+\fa{متن فارسی}
+
+% Note: No actual image included, just testing package loading
+
+\end{document}

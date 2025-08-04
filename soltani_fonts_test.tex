@@ -1,0 +1,80 @@
+% Test template for Soltani Persian fonts collection
+% Download fonts from: https://github.com/soltaneghar-b/AllFontsSoltani
+% Compile with: xelatex soltani_fonts_test.tex
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xepersian}
+\usepackage{geometry}
+
+\geometry{margin=2cm}
+
+% Test different Soltani fonts - uncomment one at a time
+% Popular fonts from the Soltani collection:
+
+\settextfont{B Nazanin}           % Classic choice
+% \settextfont{B Titr}            % Good for titles
+% \settextfont{B Lotus}           % Elegant
+% \settextfont{B Mitra}           % Clean and readable
+% \settextfont{B Yekan}           % Modern sans-serif
+% \settextfont{IRANSans}          % Professional
+% \settextfont{Sahel}             % Modern
+% \settextfont{Samim}             % Clean
+% \settextfont{Shabnam}           % Elegant
+% \settextfont{Tanha}             % Unique style
+% \settextfont{Vazir}             % If available in collection
+
+\title{تست فونت‌های مجموعه سلطانی}
+\author{تست فونت}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{معرفی فونت فعلی}
+فونت فعلی: \textbf{نام فونت انتخابی}
+
+\section{نمونه متن فارسی}
+این یک نمونه متن فارسی است که برای تست فونت‌های مختلف مجموعه سلطانی استفاده می‌شود. 
+
+\subsection{حروف الفبا}
+الف، ب، پ، ت، ث، ج، چ، ح، خ، د، ذ، ر، ز، ژ، س، ش، ص، ض، ط، ظ، ع، غ، ف، ق، ک، گ، ل، م، ن، و، ه، ی
+
+\subsection{اعداد فارسی}
+۰، ۱، ۲، ۳، ۴، ۵، ۶، ۷، ۸، ۹
+
+\subsection{اعداد انگلیسی}
+\lr{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+\section{علائم نگارشی}
+نقطه (.)، ویرگول (،)، نقطه‌ویرگول (؛)، دونقطه (:)، علامت سؤال (؟)، علامت تعجب (!)
+
+\section{سبک‌های مختلف}
+\begin{itemize}
+\item \textbf{متن ضخیم}
+\item \textit{متن کج} 
+\item \underline{متن زیرخط‌دار}
+\item متن عادی
+\end{itemize}
+
+\section{متن ترکیبی فارسی-انگلیسی}
+این متن شامل کلمات انگلیسی مثل \lr{LaTeX}، \lr{XeLaTeX}، \lr{GitHub} و \lr{Soltani Collection} نیز می‌باشد.
+
+\section{نمونه فهرست شماره‌دار}
+\begin{enumerate}
+\item مرحله اول: دانلود فونت‌ها
+\item مرحله دوم: نصب فونت‌ها
+\item مرحله سوم: تست در \lr{LaTeX}
+\item مرحله چهارم: انتخاب بهترین فونت
+\end{enumerate}
+
+\section{جمله‌های نمونه}
+\begin{quote}
+«این یک نقل‌قول نمونه است که برای نمایش کیفیت فونت در متن‌های طولانی‌تر استفاده می‌شود.»
+\end{quote}
+
+\section{نتیجه‌گیری}
+اگر این صفحه به درستی نمایش داده شود، فونت انتخابی شما از مجموعه سلطانی آماده استفاده در پروژه‌های \lr{LaTeX} است.
+
+\end{document}

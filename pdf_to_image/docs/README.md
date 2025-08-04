@@ -16,7 +16,7 @@ This directory contains comprehensive documentation for the PDF to Image Convert
 ### Research & Planning
 - **[library_comparison.md](library_comparison.md)** - Python PDF library research and comparison
 - **[quality_baseline.md](quality_baseline.md)** - Quality configuration specifications
-- **[project_status.md](project_status.md)** - Sprint completion status and project health (✅ COMPLETE)
+- **[project_status.md](project_status.md)** - Development progress and completion status
 
 ## 🎯 Quick Navigation
 
@@ -32,7 +32,6 @@ This directory contains comprehensive documentation for the PDF to Image Convert
 
 **For Deployment:**
 - Follow [DEPLOYMENT.md](DEPLOYMENT.md) for production setup
-- Use [GITHUB_SETUP.md](GITHUB_SETUP.md) for repository publishing
 
 ---
 

@@ -1,0 +1,317 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{qrcode}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+
+% Page setup
+\geometry{a4paper, margin=1in}
+
+% Simple info box
+\newtcolorbox{infobox}{
+    colback=blue!5,
+    colframe=blue!40,
+    title=Information,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{successbox}{
+    colback=green!5,
+    colframe=green!40,
+    title=Success,
+    fonttitle=\bfseries
+}
+
+\title{Oh My Zsh Installation Guide\\
+\large PDF with QR Code Copy Solution}
+\author{Best PDF Interactive Solution}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{How to Use This Guide}
+
+\begin{infobox}
+\textbf{QR Code Instructions:}
+\begin{enumerate}
+    \item Use your phone's camera or QR scanner app
+    \item Scan the QR code next to any command
+    \item The full command will appear on your phone
+    \item Copy from your phone and paste into terminal
+\end{enumerate}
+
+\textbf{Why QR codes work best for PDF:}
+\begin{itemize}
+    \item Works with ANY PDF viewer
+    \item No JavaScript required
+    \item Mobile-friendly
+    \item Always copies the correct single-line command
+\end{itemize}
+\end{infobox}
+
+\section{Step 1: Install Zsh}
+
+\subsection{Ubuntu/Debian Systems}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Update Package List} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo apt update} & \qrcode[height=2cm]{sudo apt update} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Zsh} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo apt install zsh} & \qrcode[height=2cm]{sudo apt install zsh} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{CentOS/RHEL/Fedora Systems}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Zsh (CentOS/RHEL)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo yum install zsh} & \qrcode[height=2cm]{sudo yum install zsh} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Zsh (Fedora)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo dnf install zsh} & \qrcode[height=2cm]{sudo dnf install zsh} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{macOS Systems}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Zsh (Homebrew)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{brew install zsh} & \qrcode[height=2cm]{brew install zsh} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Verify Installation}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Check Zsh Version} & \textbf{Scan to Copy} \\
+\hline
+\texttt{zsh --version} & \qrcode[height=2cm]{zsh --version} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Find Zsh Location} & \textbf{Scan to Copy} \\
+\hline
+\texttt{which zsh} & \qrcode[height=2cm]{which zsh} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Step 2: Install Oh My Zsh}
+
+\subsection{Method 1: Using curl}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Oh My Zsh (curl)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sh -c "\$(curl -fsSL https://raw.githubusercontent.com/\\
+ohmyzsh/ohmyzsh/master/tools/install.sh)"} & 
+\qrcode[height=2cm]{sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Method 2: Using wget}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Oh My Zsh (wget)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sh -c "\$(wget https://raw.githubusercontent.com/\\
+ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"} & 
+\qrcode[height=2cm]{sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Step 3: Change Default Shell}
+
+\subsection{Standard Systems}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Change Shell (Standard)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{chsh -s \$(which zsh)} & \qrcode[height=2cm]{chsh -s $(which zsh)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{GitHub Codespaces}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Change Shell (Codespaces Method 1)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo chsh -s \$(which zsh) \$(whoami)} & 
+\qrcode[height=2cm]{sudo chsh -s $(which zsh) $(whoami)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Change Shell (Codespaces Method 2)} & \textbf{Scan to Copy} \\
+\hline
+\texttt{sudo chsh "\$(id -un)" --shell "\$(which zsh)"} & 
+\qrcode[height=2cm]{sudo chsh "$(id -un)" --shell "$(which zsh)"} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Step 4: Install Popular Plugins}
+
+\subsection{Zsh Autosuggestions}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Autosuggestions Plugin} & \textbf{Scan to Copy} \\
+\hline
+\texttt{git clone https://github.com/zsh-users/\\
+zsh-autosuggestions \$\{ZSH\_CUSTOM:-\textasciitilde/.oh-my-zsh/\\
+custom\}/plugins/zsh-autosuggestions} & 
+\qrcode[height=2cm]{git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Zsh Syntax Highlighting}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Install Syntax Highlighting Plugin} & \textbf{Scan to Copy} \\
+\hline
+\texttt{git clone https://github.com/zsh-users/\\
+zsh-syntax-highlighting.git \$\{ZSH\_CUSTOM:-\textasciitilde/.oh-my-zsh/\\
+custom\}/plugins/zsh-syntax-highlighting} & 
+\qrcode[height=2cm]{git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Step 5: Apply Changes}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Reload Configuration} & \textbf{Scan to Copy} \\
+\hline
+\texttt{source \textasciitilde/.zshrc} & \qrcode[height=2cm]{source ~/.zshrc} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Verification Commands}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Check Current Shell} & \textbf{Scan to Copy} \\
+\hline
+\texttt{echo \$SHELL} & \qrcode[height=2cm]{echo $SHELL} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{|p{0.7\textwidth}|c|}
+\hline
+\textbf{Check User Shell Setting} & \textbf{Scan to Copy} \\
+\hline
+\texttt{grep \$(whoami) /etc/passwd} & \qrcode[height=2cm]{grep $(whoami) /etc/passwd} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Success!}
+
+\begin{successbox}
+You have successfully:
+\begin{itemize}
+    \item Installed Zsh shell
+    \item Installed Oh My Zsh framework  
+    \item Changed default shell (including Codespaces methods)
+    \item Configured themes and plugins
+    \item Applied the configuration
+\end{itemize}
+
+\textbf{Next Steps:}
+\begin{itemize}
+    \item Explore themes: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Themes}
+    \item Discover plugins: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins}
+    \item Customize your prompt further
+\end{itemize}
+\end{successbox}
+
+\section{Why QR Codes Are the Best PDF Solution}
+
+\begin{infobox}
+\textbf{QR Code Advantages:}
+\begin{itemize}
+    \item Works with ANY PDF viewer (Adobe, Chrome, mobile apps)
+    \item No JavaScript or security restrictions
+    \item Mobile-friendly - use phone camera
+    \item Always copies the correct single-line command
+    \item Works offline once PDF is downloaded
+    \item Cross-platform compatibility
+    \item Bridges visual display and functional copying
+\end{itemize}
+
+\textbf{Perfect User Experience:}
+\begin{enumerate}
+    \item Read the guide on computer/tablet
+    \item Scan QR code with phone
+    \item Copy command from phone
+    \item Paste into terminal on computer
+\end{enumerate}
+
+This is the best solution for PDF documents that need both visual appeal and copy functionality!
+\end{infobox}
+
+\end{document}

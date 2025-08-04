@@ -1,0 +1,67 @@
+% This document is designed to test Persian fonts with XeLaTeX.
+% It incorporates best practices learned from the error log.
+% Compile with: xelatex template.tex
+
+\documentclass[12pt,a4paper]{article}
+
+% IMPORTANT: Package Loading Order
+% Load font packages first, followed by xepersian/polyglossia.
+% This prevents conflicts with the bidi package (see Error 1).
+\usepackage{fontspec}
+\usepackage{geometry}
+
+% --- CHOOSE ONE: xepersian or polyglossia ---
+
+% OPTION 1: Using xepersian (recommended for Persian-focused documents)
+% The xepersian package must come after fontspec and geometry (see Error 1).
+\usepackage{xepersian}
+
+% Use the correct command to set the font for xepersian (see Error 15).
+% Use the correct font name. 'Vazir' is valid, but 'Vazirmatn' is the modern successor.
+\settextfont{Vazirmatn}
+
+% OPTION 2: Using polyglossia (if needed for multi-language documents)
+% Note: Do NOT use xepersian and polyglossia together (see Error 21).
+% \usepackage{polyglossia}
+% \setdefaultlanguage{farsi}
+% \setotherlanguage{english}
+% Use the correct command name for polyglossia (see Error 6).
+% \newfontfamily\arabicfont{Vazirmatn}
+
+
+\geometry{margin=2cm}
+
+\title{تست فونت‌های فارسی}
+\author{تست}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{نمونه متن فارسی}
+
+این یک نمونه متن فارسی است که برای تست فونت‌های مختلف استفاده می‌شود. در این متن حروف مختلف الفبای فارسی آمده است:
+
+الف، ب، پ، ت، ث، ج، چ، ح، خ، د، ذ، ر، ز، ژ، س، ش، ص، ض، ط، ظ، ع، غ، ف، ق، ک، گ، ل، م، ن، و، ه، ی
+
+\section{اعداد فارسی}
+۰، ۱، ۲، ۳، ۴، ۵، ۶، ۷، ۸، ۹
+
+\section{علائم نگارشی}
+نقطه (.)، ویرگول (،)، نقطه‌ویرگول (؛)، دونقطه (:)، علامت سؤال (؟)، علامت تعجب (!)
+
+\section{متن ترکیبی}
+این متن شامل کلمات انگلیسی مثل \lr{LaTeX} و \lr{XeLaTeX} نیز می‌باشد.
+
+\section{سبک‌های مختلف}
+\textbf{متن ضخیم}، \textit{متن کج}، \underline{متن زیرخط‌دار}
+
+\section{فهرست نمونه}
+\begin{itemize}
+\item مورد اول
+\item مورد دوم  
+\item مورد سوم
+\end{itemize}
+
+\end{document}

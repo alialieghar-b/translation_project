@@ -1,0 +1,322 @@
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{qrcode}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+% Page setup
+\geometry{a4paper, margin=1in}
+
+% Configure listings for visual display
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    breakindent=20pt,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+
+% Custom command for code with QR
+\newtcolorbox{codeqr}[2]{
+    enhanced,
+    colback=gray!5,
+    colframe=blue!50,
+    title=#1,
+    fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-2mm, xshift=2mm},
+    boxed title style={colback=blue!20},
+    sidebyside,
+    sidebyside align=top,
+    sidebyside gap=10pt,
+    righthand width=2.5cm,
+    lower separated=false
+}
+
+% Smaller QR code command
+\newcommand{\qrsmall}[1]{%
+    \qrcode[height=2cm, tight, level=M]{#1}%
+}
+
+\title{Oh My Zsh Installation Guide\\
+\large PDF Version with QR Code Copy}
+\author{Interactive PDF Solution}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{How to Use This Guide}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40, title=📱 QR Code Instructions]
+\textbf{How to copy commands:}
+\begin{enumerate}
+    \item Use your phone's camera or QR scanner app
+    \item Scan the QR code next to any command
+    \item The full command will appear on your phone
+    \item Copy from your phone and paste into terminal
+\end{enumerate}
+
+\textbf{Why QR codes?}
+\begin{itemize}
+    \item Works with any PDF viewer
+    \item No JavaScript required
+    \item Mobile-friendly
+    \item Always copies the correct single-line command
+\end{itemize}
+\end{tcolorbox}
+
+\section{Step 1: Install Zsh}
+
+\subsection{Ubuntu/Debian Systems}
+
+\begin{codeqr}{Update Package List}{}
+\begin{lstlisting}
+sudo apt update
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo apt update}
+\end{codeqr}
+
+\begin{codeqr}{Install Zsh}{}
+\begin{lstlisting}
+sudo apt install zsh
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo apt install zsh}
+\end{codeqr}
+
+\subsection{CentOS/RHEL Systems}
+
+\begin{codeqr}{Install Zsh (CentOS/RHEL)}{}
+\begin{lstlisting}
+sudo yum install zsh
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo yum install zsh}
+\end{codeqr}
+
+\subsection{Fedora Systems}
+
+\begin{codeqr}{Install Zsh (Fedora)}{}
+\begin{lstlisting}
+sudo dnf install zsh
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo dnf install zsh}
+\end{codeqr}
+
+\subsection{macOS Systems}
+
+\begin{codeqr}{Install Zsh (Homebrew)}{}
+\begin{lstlisting}
+brew install zsh
+\end{lstlisting}
+\tcblower
+\qrsmall{brew install zsh}
+\end{codeqr}
+
+\subsection{Verify Installation}
+
+\begin{codeqr}{Check Zsh Version}{}
+\begin{lstlisting}
+zsh --version
+\end{lstlisting}
+\tcblower
+\qrsmall{zsh --version}
+\end{codeqr}
+
+\begin{codeqr}{Find Zsh Location}{}
+\begin{lstlisting}
+which zsh
+\end{lstlisting}
+\tcblower
+\qrsmall{which zsh}
+\end{codeqr}
+
+\section{Step 2: Install Oh My Zsh}
+
+\subsection{Method 1: Using curl}
+
+\begin{codeqr}{Install Oh My Zsh (curl)}{}
+\begin{lstlisting}
+sh -c "$(curl -fsSL 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+\end{lstlisting}
+\tcblower
+\qrsmall{sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"}
+\end{codeqr}
+
+\subsection{Method 2: Using wget}
+
+\begin{codeqr}{Install Oh My Zsh (wget)}{}
+\begin{lstlisting}
+sh -c "$(wget 
+https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+\end{lstlisting}
+\tcblower
+\qrsmall{sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"}
+\end{codeqr}
+
+\section{Step 3: Change Default Shell}
+
+\subsection{Standard Systems}
+
+\begin{codeqr}{Change Shell (Standard)}{}
+\begin{lstlisting}
+chsh -s $(which zsh)
+\end{lstlisting}
+\tcblower
+\qrsmall{chsh -s $(which zsh)}
+\end{codeqr}
+
+\subsection{GitHub Codespaces}
+
+\begin{codeqr}{Change Shell (Codespaces Method 1)}{}
+\begin{lstlisting}
+sudo chsh -s $(which zsh) $(whoami)
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo chsh -s $(which zsh) $(whoami)}
+\end{codeqr}
+
+\begin{codeqr}{Change Shell (Codespaces Method 2)}{}
+\begin{lstlisting}
+sudo chsh "$(id -un)" --shell "$(which zsh)"
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo chsh "$(id -un)" --shell "$(which zsh)"}
+\end{codeqr}
+
+\section{Step 4: Install Popular Plugins}
+
+\subsection{Zsh Autosuggestions}
+
+\begin{codeqr}{Install Autosuggestions Plugin}{}
+\begin{lstlisting}
+git clone https://github.com/zsh-users/zsh-autosuggestions 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+\end{lstlisting}
+\tcblower
+\qrsmall{git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions}
+\end{codeqr}
+
+\subsection{Zsh Syntax Highlighting}
+
+\begin{codeqr}{Install Syntax Highlighting Plugin}{}
+\begin{lstlisting}
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 
+${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+\end{lstlisting}
+\tcblower
+\qrsmall{git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting}
+\end{codeqr}
+
+\subsection{Powerlevel10k Theme}
+
+\begin{codeqr}{Install Powerlevel10k Theme}{}
+\begin{lstlisting}
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git 
+${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+\end{lstlisting}
+\tcblower
+\qrsmall{git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k}
+\end{codeqr}
+
+\section{Step 5: Apply Changes}
+
+\begin{codeqr}{Reload Configuration}{}
+\begin{lstlisting}
+source ~/.zshrc
+\end{lstlisting}
+\tcblower
+\qrsmall{source ~/.zshrc}
+\end{codeqr}
+
+\section{Verification Commands}
+
+\begin{codeqr}{Check Current Shell}{}
+\begin{lstlisting}
+echo $SHELL
+\end{lstlisting}
+\tcblower
+\qrsmall{echo $SHELL}
+\end{codeqr}
+
+\begin{codeqr}{Check User Shell Setting}{}
+\begin{lstlisting}
+grep $(whoami) /etc/passwd
+\end{lstlisting}
+\tcblower
+\qrsmall{grep $(whoami) /etc/passwd}
+\end{codeqr}
+
+\section{Troubleshooting}
+
+\begin{codeqr}{Fix Permissions (if needed)}{}
+\begin{lstlisting}
+sudo chsh -s $(which zsh) $USER
+\end{lstlisting}
+\tcblower
+\qrsmall{sudo chsh -s $(which zsh) $USER}
+\end{codeqr}
+
+\begin{codeqr}{Check Plugin Directory}{}
+\begin{lstlisting}
+ls ~/.oh-my-zsh/custom/plugins/
+\end{lstlisting}
+\tcblower
+\qrsmall{ls ~/.oh-my-zsh/custom/plugins/}
+\end{codeqr}
+
+\section{Success!}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!40, title=🎉 Congratulations!]
+You have successfully:
+\begin{itemize}
+    \item ✅ Installed Zsh shell
+    \item ✅ Installed Oh My Zsh framework  
+    \item ✅ Changed default shell (including Codespaces methods)
+    \item ✅ Configured themes and plugins
+    \item ✅ Applied the configuration
+\end{itemize}
+
+\textbf{Next Steps:}
+\begin{itemize}
+    \item Explore themes: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Themes}
+    \item Discover plugins: \url{https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins}
+    \item Customize your prompt further
+\end{itemize}
+\end{tcolorbox}
+
+\section{QR Code Benefits}
+
+\begin{tcolorbox}[colback=blue!5, colframe=blue!40, title=📱 Why QR Codes Work Best for PDF]
+\textbf{Advantages:}
+\begin{itemize}
+    \item ✅ Works with ANY PDF viewer (Adobe, Chrome, mobile apps)
+    \item ✅ No JavaScript or security restrictions
+    \item ✅ Mobile-friendly - use phone camera
+    \item ✅ Always copies the correct single-line command
+    \item ✅ Works offline once PDF is downloaded
+    \item ✅ Cross-platform compatibility
+\end{itemize}
+
+\textbf{User Experience:}
+\begin{enumerate}
+    \item Read the guide on computer/tablet
+    \item Scan QR code with phone
+    \item Copy command from phone
+    \item Paste into terminal on computer
+\end{enumerate}
+
+This bridges the gap between visual display and functional copying in PDF format!
+\end{tcolorbox}
+
+\end{document}
